@@ -38,10 +38,10 @@
                            
                   echo '<tr>';
                       echo '<td class="leftpart">';
-                          echo '<h3><a href="category.php?id=">Category name</a></h3> Category description goes here';
+                          echo '<h3><a href="category.php?id=">Category name</a></h3> Category ';
                       echo '</td>';
                       echo '<td class="rightpart">';                
-                              echo '<a href="topic.php?id=">Topic subject</a> at 10-10';
+                              echo '<a href="topic.php?id=">message subject</a> at 10-10';
                       echo '</td>';
                   echo '</tr>';
                   
@@ -94,7 +94,7 @@
                                       echo '<h3><a href="category.php?id">' . $row['cat_name'] . '</a></h3>' . $row['cat_description'];
                                   echo '</td>';
                                   echo '<td class="rightpart">';
-                                              echo '<a href="topic.php?id=">Topic subject</a> at 10-10';
+                                              echo '<a href="message.php?id=">Topic subject</a> at 10-10';
                                   echo '</td>';
                               echo '</tr>';
                           }
