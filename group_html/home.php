@@ -66,7 +66,7 @@
                           FROM
                               categories";
                    
-                  $result = mysql_query($sql);
+                  $result = mysqli_query($con, $sql);
                    
                   if(!$result)
                   {
@@ -74,7 +74,7 @@
                   }
                   else
                   {
-                      if(mysql_num_rows($result) == 0)
+                      if(mysqli_num_rows($result) == 0)
                       {
                           echo 'No categories defined yet.';
                       }
@@ -87,7 +87,7 @@
                                   <th>Last topic</th>
                                 </tr>'; 
                                
-                          while($row = mysql_fetch_assoc($result))
+                          while($row = mysqli_fetch_assoc($result))
                           {               
                               echo '<tr>';
                                   echo '<td class="leftpart">';
