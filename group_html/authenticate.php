@@ -4,7 +4,7 @@ session_start();
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
-$DATABASE_NAME = 'phplogin';
+$DATABASE_NAME = 'unn_w19003579';
 
 // Try and connect using the info above.
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
@@ -20,15 +20,15 @@ if ( !isset($_POST['email'], $_POST['password']) ) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT userID, userPassword FROM User WHERE userEmail = ?')) {
+if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, role.roleName, user.userFName FROM User left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
 	// Bind parameters (s = string, i = int, b = blob, etc), in our case the email is a string so we use "s"
 	$stmt->bind_param('s', $_POST['email']);
 	$stmt->execute();
 	// Store the result so we can check if the account exists in the database.
 	$stmt->store_result();
     
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($id, $password);
+    if ($_POST['email'] != null) {
+        $stmt->bind_result($id, $password, $role, $name);
         $stmt->fetch();
         // Account exists, now we verify the password.
         // Note: remember to use password_hash in your registration file to store the hashed passwords.
@@ -39,50 +39,25 @@ if ($stmt = $con->prepare('SELECT userID, userPassword FROM User WHERE userEmail
             $_SESSION['loggedin'] = TRUE;
             $_SESSION['email'] = $_POST['email'];
             $_SESSION['userID'] = $id;
+			$_SESSION['userRole'] = $role;
+			if($name == null)
+			{
+				$name = "user";
+			}
+			$_SESSION['name'] = $name;
             header('Location: home.php');
         } else {
             // Incorrect password
-            echo 'Incorrect email and/or password!';
+			echo "<script> alert('Failed to log in: incorrect details.');
+			window.location.href='index.html';
+			</script>";
         }
     } else {
         // Incorrect email
-        echo 'Incorrect email and/or password!';
+		echo "<script> alert('Failed to log in: incorrect details.');
+		window.location.href='index.html';
+		</script>";
     }
-
 	$stmt->close();
 }
 ?>
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title>Profile Page</title>
-		<link href="style.css" rel="stylesheet" type="text/css">
-	</head>
-	<body class="loggedin">
-		<nav class="navtop">
-			<div>
-				<h1>Website Title</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
-				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
-			</div>
-		</nav>
-		<div class="content">
-			<h2>Profile Page</h2>
-			<div>
-				<p>Your account details are below:</p>
-				<table>
-					<tr>
-						<td>Email Address:</td>
-						<td><?=$_SESSION['email']?></td>
-					</tr>
-					<tr>
-						<td>Password:</td>
-						<td><?=$password?></td>
-					</tr>
-				</table>
-			</div>
-		</div>
-	</body>
-</html>
