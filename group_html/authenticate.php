@@ -20,7 +20,7 @@ if ( !isset($_POST['email'], $_POST['password']) ) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, role.roleName, user.userFName FROM User left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
+if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, role.roleName, user.userFName FROM user left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
 	// Bind parameters (s = string, i = int, b = blob, etc), in our case the email is a string so we use "s"
 	$stmt->bind_param('s', $_POST['email']);
 	$stmt->execute();
