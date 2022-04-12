@@ -13,11 +13,16 @@
       <meta charset="utf-8">
       <title>Home Page</title>
       <link href="style.css" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
    </head>
    <body class="loggedin">
       <nav class="navtop">
          <div>
             <h1>Website Title</h1>
+            <?php if ($_SESSION['userRole'] == 3 || $_SESSION['userRole'] == 4 || $_SESSION['userRole'] == 5){
+            echo'<a href="admin.php"><i class="fa-solid fa-screwdriver-wrench"></i>Admin</a>';
+            }
+            ?>
             <a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
             <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
          </div>
