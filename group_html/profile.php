@@ -30,12 +30,13 @@ $stmt->close();
 		<meta charset="utf-8">
 		<title>Profile Page</title>
 		<link href="style.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
 	</head>
 	<body class="loggedin">
 		<nav class="navtop">
 			<div>
 				<h1>Website Title</h1>
+				<a href="home.php"><i class="fa-solid fa-house"></i>Home</a>
 				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
 			</div>
