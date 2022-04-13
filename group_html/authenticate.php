@@ -2,8 +2,8 @@
 session_start();
 // Change this to your connection info.
 $DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'unn_w19003579';
-$DATABASE_PASS = 'Group123.';
+$DATABASE_USER = 'root';
+$DATABASE_PASS = '';
 $DATABASE_NAME = 'unn_w19003579';
 
 // Try and connect using the info above.
@@ -20,7 +20,7 @@ if ( !isset($_POST['email'], $_POST['password']) ) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, role.roleName, user.userFName FROM user left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
+if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, userRole, user.userFName, user.userTeam FROM User left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
 	// Bind parameters (s = string, i = int, b = blob, etc), in our case the email is a string so we use "s"
 	$stmt->bind_param('s', $_POST['email']);
 	$stmt->execute();
@@ -28,7 +28,7 @@ if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, role.roleName,
 	$stmt->store_result();
     
     if ($_POST['email'] != null) {
-        $stmt->bind_result($id, $password, $role, $name);
+        $stmt->bind_result($id, $password, $role, $name, $team);
         $stmt->fetch();
         // Account exists, now we verify the password.
         // Note: remember to use password_hash in your registration file to store the hashed passwords.
@@ -40,6 +40,7 @@ if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, role.roleName,
             $_SESSION['email'] = $_POST['email'];
             $_SESSION['userID'] = $id;
 			$_SESSION['userRole'] = $role;
+			$_SESSION['teamID'] = $team;
 			if($name == null)
 			{
 				$name = "user";
