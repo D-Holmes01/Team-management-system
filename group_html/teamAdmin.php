@@ -51,7 +51,8 @@ $result = $con->query('SELECT * from user where user.userTeam = ' . $_SESSION['t
             <form action="assignTeam.php" method="post">
                 <p>Users:</p>
                 <select name="users" id="users">
-                    <?php while (
+                    <?php 
+                    while (
                         $ri = mysqli_fetch_array($result)
                     ) {
                     ?>
@@ -81,6 +82,47 @@ $result = $con->query('SELECT * from user where user.userTeam = ' . $_SESSION['t
                     ?>
                 </select>
                 <input type="submit" id="assignTeam"></input>
+            </form>
+        </div>
+        <div id="captainSelect">
+            <form action="assignCaptain.php" method="post">
+                
+                <select name="teams" id="teams">
+                    <p>Teams</p>
+
+                    <?php
+                    $result = $con->query("SELECT squad.squadID, squad.squadName from teamSquad LEFT JOIN squad on squad.squadID = teamSquad.squadID where teamSquad.teamID = " . $_SESSION['teamID'] . ";");
+                    while (
+                        $ri = mysqli_fetch_array($result)
+                    ) {
+                    ?>
+                        <option value="<?php echo $ri['squadID'] ?>">
+                            <?php echo $ri['squadName'] ?>
+                        </option>
+
+                    <?php
+                    }
+                    ?>
+                </select>
+                <p>Users:</p>
+                <select name="users" id="users">
+                    
+                    <?php 
+                    echo 'SELECT * from user where user.userTeam = ' . $_SESSION['teamID'] . ' AND user.userRole < 3;';
+                    $result = $con->query('SELECT * from user where user.userTeam = ' . $_SESSION['teamID'] . ' AND user.userRole < 3;');
+                    while (
+                        $ri = mysqli_fetch_array($result)
+                    ) {
+                    ?>
+                        <option value="<?php echo $ri['userID'] ?>">
+                            <?php echo $ri['userFName'] . " " . $ri['userSName'] ?>
+                        </option>
+
+                    <?php
+                    }
+                    ?>
+                </select>
+                <input type="submit" id="assignCaptain"></input>
             </form>
         </div>
     </div>

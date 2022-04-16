@@ -14,14 +14,14 @@ if ( mysqli_connect_errno() ) {
 }
 
 // Now we check if the data from the login form was submitted, isset() will check if the data exists.
-if ( !isset($_POST['users'], $_POST['role']) ) {
+if ( !isset($_POST['users'], $_POST['teams']) ) {
 	// Could not get the data that should have been sent.
 	echo $_POST['users'], $_POST['role'];
     exit('Please fill both the email and password fields!');
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare("UPDATE User SET userRole = ".$_POST['role']." WHERE userID = ".$_POST['users'].";")) {
+if ($stmt = $con->prepare("UPDATE squad SET captainID = ".$_POST['users']." WHERE squadID = ".$_POST['teams'].";")) {
 	$stmt->execute();
 	// Store the result so we can check if the account exists in the database.
 	$stmt->store_result();
