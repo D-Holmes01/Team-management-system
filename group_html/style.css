@@ -5,6 +5,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+select {
+    width: 310px;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
 body {
     background-color: #435165;
 }
@@ -126,322 +134,54 @@ body.loggedin {
 	padding: 5px;
 	margin: 0 0 10px 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-* {
-  box-sizing: border-box;
+.register {
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
 }
-body {
-  font-family: 'Montserrat', sans-serif;
-  line-height: 1.6;
-  margin: 0;
-  min-height: 100vh;
+.register h1 {
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid #dee0e4;
 }
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-
-/* ================================= 
-  Text Styles
-==================================== */
-h2,
-h3,
-a {
-  color: #34495e;
-}
-
-a {
-  text-decoration: none;
-}
-
-
-/* ================================= 
-  Nav/Logo Styles
-==================================== */
-
-.logo {
-  margin: 0;
-  font-size: 1.45em;
-}
-
-.main-nav {
-  margin-top: 5px;
-
-}
-.logo a,
-.main-nav a {
-  padding: 10px 15px;
-  text-transform: uppercase;
-  text-align: center;
-  display: block;
-}
-
-.main-nav a {
-  color: #34495e;
-  font-size: .99em;
-}
-
-.main-nav a:hover {
-  color: #718daa;
-}
-
-
-.header {
-  padding-top: .5em;
-  padding-bottom: .5em;
-  border: 1px solid #a2a2a2;
-  background-color: #f4f4f4;
-  -webkit-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.75);
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
-
-/* ================================= 
-  Media Queries
-==================================== */
-
-
-
-
-@media (min-width: 769px) {
-  .header,
-  .main-nav {
+.register form {
     display: flex;
-  }
-  .header {
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+.register form label {
+    display: flex;
+    justify-content: center;
     align-items: center;
-      .header{
-    width: 80%;
-    margin: 0 auto;
-    max-width: 1150px;
-  }
-  }
-
+    width: 50px;
+   height: 50px;
+    background-color: #3274d6;
+    color: #ffffff;
 }
-
-@media (min-width: 1025px) {
-  .header {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
+.register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
+    width: 310px;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
 }
-
-
-
-/* ================================= 
-  Footer Styles
-==================================== */
-
-
-.footer-basic {
-  padding:40px 0;
-  background-color:#ffffff;
-  color:#4b4c4d;
-}
-
-
-.footer-basic .copyright {
-  margin-top:15px;
-  text-align:center;
-  font-size:13px;
-  color:#111;
-  margin-bottom:0;
-}
-
-
-
-/* ================================= 
-       Message board Styles
-==================================== */
-body{
-  background: #f2f2f2;
-}
-.forum{
-  margin: 0 0 0 25%
-}
-.profile{
-  background-image: center;
-  background-position: fixed;
-  width: 75px;
-  height: ;
-  border-radius: 20%;
-  margin: 2% 2% 3% 2%;
-  z-index:2;
-  position: relative;
-}
-.load-more{
-  background: #363636;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  z-index:2;
-  position:relative;
-  margin: 2% 2% 0 4.95%;
-}
-.indicator{
-  display:inline-block;
-  margin: 0 0 0 50px;
-  font-family:helvetica;
-  font-size: 14px;
-  width:100px;
-}
-
-.comment-box{
-  height: 110px;
-  width: 600px;
-  background: white;
-  margin: 3% 0 0 0;
-  display: inline-block;
-  border-radius: 2%;
-  box-shadow: 2px 2px 20px #e3e3e3;
-}
-
-
-
-
-
-
-
-/* === Message board Php styles ===== */
-
-
-
-
-body {
-    background-color: #4E4E4E;
-    text-align: center;         /* make sure IE centers the page too */
-}
- 
-#wrapper {
-    width: 900px;
-    margin: 0 auto;             /* center the page */
-}
- 
-#content {
-    background-color: #fff;
-    border: 1px solid #000;
-    float: left;
-    font-family: Arial;
-    padding: 20px 30px;
-    text-align: left;
-    width: 100%;                /* fill up the entire div */
-}
- 
-#menu {
-    float: left;
-    border: 1px solid #000;
-    border-bottom: none;        /* avoid a double border */
-    clear: both;                /* clear:both makes sure the content div doesn't float next to this one but stays under it */
-    width:100%;
-    height:20px;
-    padding: 0 30px;
-    background-color: #FFF;
-    text-align: left;
-    font-size: 85%;
-}
- 
-#menu a:hover {
-    background-color: #009FC1;
-}
- 
-#userbar {
-    background-color: #fff;
-    float: right;
-    width: 250px;
-}
- 
-#footer {
-    clear: both;
-}
- 
-/* begin table styles */
-table {
-    border-collapse: collapse;
+.register form input[type="submit"] {
     width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #3274d6;
+   border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    transition: background-color 0.2s;
 }
- 
-table a {
-    color: #000;
-}
- 
-table a:hover {
-    color:#373737;
-    text-decoration: none;
-}
- 
-th {
-    background-color: #B40E1F;
-    color: #F0F0F0;
-}
- 
-td {
-    padding: 5px;
-}
- 
-/* Begin font styles */
-h1, #footer {
-    font-family: Arial;
-    color: #F1F3F1;
-}
- 
-h3 {margin: 0; padding: 0;}
- 
-/* Menu styles */
-.item {
-    background-color: #00728B;
-    border: 1px solid #032472;
-    color: #FFF;
-    font-family: Arial;
-    padding: 3px;
-    text-decoration: none;
-}
- 
-.leftpart {
-    width: 70%;
-}
- 
-.rightpart {
-    width: 30%;
-}
- 
-.small {
-    font-size: 75%;
-    color: #373737;
-}
-#footer {
-    font-size: 65%;
-    padding: 3px 0 0 0;
-}
- 
-.topic-post {
-    height: 100px;
-    overflow: auto;
-}
- 
-.post-content {
-    padding: 30px;
-}
- 
-textarea {
-    width: 500px;
-    height: 200px;
+
+.register form input[type="submit"]:hover {
+  background-color: #2868c7;
+    transition: background-color 0.2s;
 }

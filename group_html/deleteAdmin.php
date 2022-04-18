@@ -59,10 +59,10 @@ $result = $con->query("SELECT * from user where user.userTeam = " . $_SESSION['t
                         <option value="<?php echo $ri['userID'] ?>">
                             <?php echo $ri['userFName'] . " " . $ri['userSName'] ?>
                         </option>
-                </select>
+               
             <?php
-                    }
-            ?>
+                     }
+            ?></select>
             <input type="submit" id="deleteUser"></input>
             </form>
         </div>

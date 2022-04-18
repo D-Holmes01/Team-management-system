@@ -14,17 +14,22 @@ if ( mysqli_connect_errno() ) {
 }
 
 // Now we check if the data from the login form was submitted, isset() will check if the data exists.
-if ( !isset($_POST['users'], $_POST['teams']) ) {
+if ( !isset($_POST['Fname'], $_POST['Sname'], $_POST['Position']) ) {
 	// Could not get the data that should have been sent.
-	echo $_POST['users'], $_POST['role'];
     exit('Please fill both the email and password fields!');
 }
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare("UPDATE squad SET captainID = ".$_POST['users']." WHERE squadID = ".$_POST['teams'].";")) {
+if ($stmt = $con->prepare("UPDATE User SET userFName = '".$_POST['Fname']."', userSName = '".$_POST['Sname']."', userBio = '".$_POST['Bio']."', userPosition = ".$_POST['Position']." WHERE userID = ".$_SESSION['userID'].";")) {
 	$stmt->execute();
 	// Store the result so we can check if the account exists in the database.
 	$stmt->store_result();
+    $_SESSION['name'] = $_POST['Fname'];
+    $_SESSION['surname'] = $_POST['Sname'];
+    $_SESSION['bio'] = $_POST['Bio'];
+    $_SESSION['position'] = $_POST['Position'];
     header('Location: home.php');
+
+    //header('Location: home.php');
     } else {
         // Incorrect email
 		echo "<script> alert('Failed to log in: incorrect details.');
