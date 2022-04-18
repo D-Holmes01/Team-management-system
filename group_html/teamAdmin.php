@@ -125,6 +125,13 @@ $result = $con->query('SELECT * from user where user.userTeam = ' . $_SESSION['t
                 <input type="submit" id="assignCaptain"></input>
             </form>
         </div>
+        <div id="newTeam">
+            <form action="createTeam.php" method="post">
+                <input type="text" name = "name">
+            <input type="submit" id="createTeam.php"></input>
+
+            </form>
+        </div>
     </div>
 </body>
 
