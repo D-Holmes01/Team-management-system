@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <title>Edit Event Form</title>
-    <link href='style.css' rel='stylesheet' />
+    <link href='style2.css' rel='stylesheet' />
   </head>
 
     <?php

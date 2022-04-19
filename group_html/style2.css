@@ -1,0 +1,67 @@
+#form
+{
+    width: 50%;
+    margin: auto;
+    border: 3px solid #f1f1f1;
+    box-sizing: border-box;
+    background-color: rgb(136, 154, 155);
+    display: none;
+}
+
+#optionForm
+{
+    width: 50%;
+    margin: auto;
+    border: 3px solid #f1f1f1;
+    box-sizing: border-box;
+    background-color: rgb(76, 131, 134);
+    display: none;
+}
+
+
+#optionFormContainer
+{
+    padding: 1em;
+}
+  
+#formcontainer 
+{
+    padding: 1em;
+}
+
+input, select
+{
+    margin: 1em;
+}
+
+label 
+{
+    font-weight: bold;
+    margin: 1em;
+}
+
+table, td, th 
+{
+    border: 1px solid black;
+}
+  
+table 
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+  
+td 
+{
+    text-align: center;
+}
+
+#tableTitle
+{
+    text-align: center;
+}
+
+#eventName, #eventNameLabel
+{
+    display: none;
+}

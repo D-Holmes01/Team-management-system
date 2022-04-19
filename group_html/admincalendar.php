@@ -4,7 +4,7 @@
     <meta charset='utf-8' />
     <title>Calendar</title>
     <link href='fullcalendar/main.css' rel='stylesheet' />
-    <link href='style.css' rel='stylesheet' />
+    <link href='style2.css' rel='stylesheet' />
     <script src='fullcalendar/main.js'></script>
     <script>
 

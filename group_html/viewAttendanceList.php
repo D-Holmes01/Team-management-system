@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <title>Attendance List</title>
-    <link href='style.css' rel='stylesheet' />
+    <link href='style2.css' rel='stylesheet' />
   </head>
   <body>
     <?php
