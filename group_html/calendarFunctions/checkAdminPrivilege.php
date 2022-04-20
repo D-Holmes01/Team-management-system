@@ -11,27 +11,27 @@
 
         if ($_SESSION['userRole'] == '1' || $_SESSION['userRole'] == '2')
         {
-            $status = FALSE;
+            $adminStatus = FALSE;
         }
 
         else if ($_SESSION['userRole'] == '3' || $_SESSION['userRole'] == '4' || $_SESSION['userRole'] == '5')
         {
-            $status = TRUE;
+            $adminStatus = TRUE;
         }
 
         else
         {
-            $status = FALSE;
+            $adminStatus = FALSE;
         }
 
     }
 
     else
     {
-        $status = FALSE;
+        $adminStatus = FALSE;
     }
 
-    return $status;
+    return $adminStatus;
         
 
 ?>
