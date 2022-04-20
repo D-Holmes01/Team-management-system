@@ -20,8 +20,7 @@ if ($con->connect_error)
 
 $eventname = $_GET['eventName'];
 $datetime = $_GET['datetime'];
-$captain = $_GET['captain'];
-
+$squad = $_GET['squad'];
 
 if (!isset($eventname))
 {
@@ -33,18 +32,19 @@ if (!isset($datetime))
     echo("datetime empty");
 }
 
-if (!isset($captain))
+if (!isset($squad))
 {
-    $captain = '0';
+    echo("squad empty");
 }
 
-if (isset($datetime) && isset($eventname))
+
+if (isset($datetime) && isset($eventname) && isset($squad))
 {
     $myDate = trim($datetime);
     $newDate = new DateTime($myDate);
     $myDate = $newDate->format('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`) VALUES (NULL, '$myDate', '$eventname', '$captain');";
+    $sql = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`) VALUES (NULL, '$myDate', '$eventname', NULL);";
     
     if (mysqli_query($con, $sql))
     {
