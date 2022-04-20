@@ -36,4 +36,6 @@
             echo "Squad list empty";
         }
 
+    $con->close();
+
 ?>

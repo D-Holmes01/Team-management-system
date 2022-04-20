@@ -20,7 +20,7 @@ if ($con->connect_error)
 
 $eventname = $_GET['eventName'];
 $datetime = $_GET['datetime'];
-$squad = $_GET['squad'];
+$squadID = $_GET['squad'];
 
 if (!isset($eventname))
 {
@@ -32,29 +32,48 @@ if (!isset($datetime))
     echo("datetime empty");
 }
 
-if (!isset($squad))
+if (!isset($squadID))
 {
     echo("squad empty");
 }
 
 
-if (isset($datetime) && isset($eventname) && isset($squad))
+if (isset($datetime) && isset($eventname) && isset($squadID))
 {
     $myDate = trim($datetime);
     $newDate = new DateTime($myDate);
     $myDate = $newDate->format('Y-m-d H:i:s');
 
-    $sql = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`) VALUES (NULL, '$myDate', '$eventname', NULL);";
-    
-    if (mysqli_query($con, $sql))
+    $sqlGetCaptainID = "SELECT captainID FROM squad WHERE squadID = '$squadID';";
+    $result = $con->query($sqlGetCaptainID);
+
+    if ($result->num_rows > 0)
     {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        $row = $result->fetch_assoc();
+        $captainID = $row['captainID'];
+
+        if (isset($captainID))
+        {
+            $sqlInsert = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`) VALUES (NULL, '$myDate', '$eventname', '$captainID');";
+
+            if (mysqli_query($con, $sqlInsert))
+            {
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+            }
+
+            else
+            {
+                echo "ERROR: Could not execute $sql. " . mysqli_error($con);
+            }
+        
+        }
+
+        else
+        {
+            echo "Squad does not have a captain";
+        }
     }
 
-    else
-    {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($con);
-    }
     
 }
 

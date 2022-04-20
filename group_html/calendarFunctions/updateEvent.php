@@ -49,7 +49,7 @@ if (isset($datetime) && isset($eventname) && isset($eventid))
     if (mysqli_query($con, $sql))
     {
         //hardcode
-        $home = 'http://unn-w19003579.newnumyspace.co.uk/group/admincalendar.php';
+        $home = 'http://unn-w19003579.newnumyspace.co.uk/group/adminCalendar.php';
         header('Location: ' . $home);
     }
 
