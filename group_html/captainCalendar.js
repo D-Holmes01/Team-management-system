@@ -7,35 +7,33 @@ function closeOptionForm()
 document.addEventListener('DOMContentLoaded', function() 
 {
 
-    //remove hard code
-    var userID = '32';
-    var squadID = '8';
+    //hardcode
+    $squad = 8;
 
-
-    function RSVP()
+    function teamSelection()
     {
         //change to POST instead of GET
         //hardcode
-        var link = "http://unn-w19003579.newnumyspace.co.uk/group/calendarFunctions/RSVP.php?eventID=" + eventID + "&userID="  + userID;
+        var link = "http://unn-w19003579.newnumyspace.co.uk/group/calendarFunctions/teamSelection.php?eventID=" + eventID ;
         window.location.href = link;
     }
 
     var calendarEl = document.getElementById('calendar');
     const optionForm = document.getElementById('optionForm');
     const closeBtn = document.getElementById('closeBtn');
-    const RSVPBtn = document.getElementById('RSVPBtn');
+    const teamSelectionBtn = document.getElementById('teamSelectionBtn');
     var eventID;
 
 
     closeBtn.addEventListener('click', closeOptionForm);
-    RSVPBtn.addEventListener('click', RSVP);
+    teamSelectionBtn.addEventListener('click', teamSelection);
         
 
     var calendar = new FullCalendar.Calendar(calendarEl, 
     {
         initialView: 'dayGridMonth',
         //hardcode
-        events: 'http://unn-w19003579.newnumyspace.co.uk/group/events.php?squad=' + squadID,
+        events: 'http://unn-w19003579.newnumyspace.co.uk/group/events.php?squad=' + $squad + "&eventType='Match'",
         height: "auto",
 
           

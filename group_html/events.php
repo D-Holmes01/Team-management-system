@@ -21,22 +21,67 @@ if ($con->connect_error)
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT eventID, eventDateTime, eventType from event";
-$result = $con->query($sql);
-
-if ($result->num_rows > 0)
+if (isset($_GET['squad']))
 {
-    while($row = $result->fetch_assoc())
-    {
-        $eventid = $row["eventID"];
-        $eventdate = $row["eventDateTime"];
-        $eventname = $row["eventType"];
+    $squad = $_GET['squad'];
 
-        $events[] = array('title'=>$eventname, 'start'=>$eventdate, 'id'=>$eventid);
+    if (isset($_GET['eventType']))
+    {
+        $sql = "SELECT eventID, eventDateTime, eventType from event WHERE squadID = '$squad' AND eventType = 'Match';";
     }
 
-    echo $jsonformat = json_encode($events);
+    if (!isset($_GET['eventType']))
+    {
+        $sql = "SELECT eventID, eventDateTime, eventType from event WHERE squadID = '$squad'; ";
+    }
+
+    $result = $con->query($sql);
+        
+    if ($result->num_rows > 0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $eventid = $row["eventID"];
+            $eventdate = $row["eventDateTime"];
+            $eventname = $row["eventType"];
+        
+            $events[] = array('title'=>$eventname, 'start'=>$eventdate, 'id'=>$eventid);
+        }
+        
+        echo $jsonformat = json_encode($events);
+
+    }
+
+    else
+    {
+        echo "Events list is empty";
+    }
+    
 }
+
+else
+{
+    $sql = "SELECT eventID, eventDateTime, eventType from event; ";
+
+    $result = $con->query($sql);
+        
+    if ($result->num_rows > 0)
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $eventid = $row["eventID"];
+            $eventdate = $row["eventDateTime"];
+            $eventname = $row["eventType"];
+        
+            $events[] = array('title'=>$eventname, 'start'=>$eventdate, 'id'=>$eventid);
+        }
+        
+        echo $jsonformat = json_encode($events);
+
+    }
+}
+
+
 
 $con->close();
 

@@ -2,7 +2,7 @@
 
     //hardcode
     $_SESSION['loggedin'] = TRUE;
-    $_SESSION['userRole'] = 2;
+    $_SESSION['userRole'] = 3;
 
     $adminStatus = FALSE;
 

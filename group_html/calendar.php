@@ -15,10 +15,16 @@
       if ((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin'] == TRUE))
       {
 
-        if ($_SESSION['userRole'] == '1' || $_SESSION['userRole'] == '2')
+        if ($_SESSION['userRole'] == '1')
         {
             //hardcode
             header("Location: http://unn-w19003579.newnumyspace.co.uk/group/playerCalendar.php");
+        }
+
+        if ($_SESSION['userRole'] == '2')
+        {
+          //hardcode
+          header("Location: http://unn-w19003579.newnumyspace.co.uk/group/captainCalendar.php");
         }
 
         if ($_SESSION['userRole'] == '3' || $_SESSION['userRole'] == '4' || $_SESSION['userRole'] == '5')

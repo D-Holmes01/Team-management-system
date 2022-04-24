@@ -4,6 +4,7 @@ require_once('checkAdminPrivilege.php');
 
 if ($adminStatus)
 {
+
     $DATABASE_HOST = 'localhost';
     $DATABASE_USER = 'unn_w19003579';
     $DATABASE_PASS = 'Group123.';
@@ -58,7 +59,7 @@ if ($adminStatus)
 
             if (isset($captainID))
             {
-                $sqlInsert = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`) VALUES (NULL, '$myDate', '$eventname', '$captainID');";
+                $sqlInsert = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`, `squadID`) VALUES (NULL, '$myDate', '$eventname', '$captainID', '$squadID');";
 
                 if (mysqli_query($con, $sqlInsert))
                 {
