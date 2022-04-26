@@ -21,7 +21,7 @@ if (!isset($_POST['email'], $_POST['password'])) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, userRole, user.userFName, user.userSName, user.userBio, user.userTeam, user.userPosition FROM User left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
+if ($stmt = $con->prepare('SELECT user.userID, user.userPassword, userRole, user.userFName, user.userSName, user.userBio, user.userTeam, user.userPosition FROM user left join role on role.roleID = user.userRole WHERE user.userEmail = ?')) {
 	//bind email to the statement string
 	$stmt->bind_param('s', $_POST['email']);
 	//Execute SQK
