@@ -1,3 +1,8 @@
+<?php
+//call function which will connect to database and send to login if no one is logged in.
+include "function.php";
+?>
+
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -12,6 +17,26 @@
     <script src='fullcalendar/main.js'></script>
     <script src='playerCalendar.js'></script>
   </head>
+  <!-- nav bar -->
+  <nav class="navtop">
+      <div>
+         <!-- Nav title and links, admin link hidden due to being the present page -->
+         <h1>Website Title</h1>
+         <!-- Show admin link for users with admin priveldges-->
+         <?php if ($_SESSION['userRole'] == 3 || $_SESSION['userRole'] == 4 || $_SESSION['userRole'] == 5) {
+            echo '<a href="admin.php"><i class="fa-solid fa-screwdriver-wrench"></i>Admin</a>';
+         }
+         ?>
+         <a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
+         <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
+         <a href="calendar.php"><i class="fa-solid fa-calendar-days"></i>Calendar</a>
+         <!-- Show MyEvents link for players -->
+         <?php if ($_SESSION['userRole'] == 1) {
+            echo '<a href="myEvents.php"><i class="fa-solid fa-calendar-xmark"></i>My Events</a>';
+         }
+         ?>
+      </div>
+   </nav>
   <body>
     <div id='calendar'></div>
 
