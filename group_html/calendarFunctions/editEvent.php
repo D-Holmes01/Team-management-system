@@ -1,3 +1,8 @@
+<?php
+//call function which will connect to database and send to login if no one is logged in.
+include "function.php";
+?>
+
 <!DOCTYPE html>
 <html lang='en'>
   <head>

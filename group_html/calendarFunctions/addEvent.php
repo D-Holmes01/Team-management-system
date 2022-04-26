@@ -1,4 +1,9 @@
 <?php
+//call function which will connect to database and send to login if no one is logged in.
+include "function.php";
+?>
+
+<?php
 
 //this file is used to ensure that the current user is logged in and has a user role that allows for adding events
 require_once('checkAdminPrivilege.php');
