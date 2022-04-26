@@ -1,16 +1,13 @@
 <?php
 // We need to use sessions, so you should always start sessions using the below code.
 session_start();
-// get database connection
-$dbConn = getConnection();
-
-if (isset($_REQUEST['role'])) {
-    //Update role
-    echo 'wagwan';
-    //$userID = $_SESSION['userID'];
-    //$userRole = $_GET['role'];
-    //updateRole($dbConn, $userID, $userRole);
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: index.html');
+    exit;
 }
+// get database connection
+$con = getConnection();
 
 //connect to database
 function getConnection()
@@ -30,25 +27,5 @@ function getConnection()
     //catch and return any errors
     catch (Exception $e) {
         throw new Exception("Connection error " . $e->getMessage(), 0, $e);
-    }
-}
-
-//retreive new values and update the db
-function updateRole($dbConn, $userID, $userRole)
-{
-    //validation
-    if ($userID < 6) {
-        try {
-            //generate sql query and assign the value
-            $updateSQL = "UPDATE User
-                      SET userRole = \"$userRole\"
-                      WHERE userID = $userID";
-        }
-        //catch and showcase ant errors
-        catch (Exception $e) {
-            echo "<p>Role not updated: " . $e->getMessage() . "</p>\n";
-        }
-    } else {
-        echo "<p>data isn't valid</p>";
     }
 }
