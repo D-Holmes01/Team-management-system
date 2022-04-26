@@ -4,10 +4,10 @@
      <?php
 include('connect.php');
 
-$sql = mysqli_query($con,"SELECT * FROM 'threads' WHERE 'id' = '$_GET[id]'");
+$sql = mysqli_query($con,"SELECT * FROM 'threads' WHERE 'id' = '.$_GET[id].'");
 
 // Now we are getting our results and making them an array
-while(".$r = mysqli_fetch_array."($sql)) {
+while($r = mysqli_fetch_array($sql)) {
 
 // Here is the thread title.
 echo "<h2>$r[title]</h2>";
