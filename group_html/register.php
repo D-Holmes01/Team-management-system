@@ -3,7 +3,7 @@
 session_start();
 // Change this to your connection info.
 $DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'uun_w19003579';
+$DATABASE_USER = 'unn_w19003579';
 $DATABASE_PASS = 'Group123.';
 $DATABASE_NAME = 'unn_w19003579';
 
@@ -143,7 +143,7 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 				//Hash password
 				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 				$_SESSION["name"] = $stmt;
-				$stmt->bind_param('ssssi', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['position'], $_POST['team']);
+				$stmt->bind_param('ssssii', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['position'], $_POST['team']);
 				if ($stmt->execute()) {
 					echo 'You have successfully registered, you can now login!';
 				}
