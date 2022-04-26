@@ -8,60 +8,56 @@
 
     <?php
 
-    $DATABASE_HOST = 'localhost';
-    $DATABASE_USER = 'unn_w19003579';
-    $DATABASE_PASS = 'Group123.';
-    $DATABASE_NAME = 'unn_w19003579';
+    //used to connect to the database
+    require_once('connect.php');
 
-
-    // Try and connect using the info above.
-    $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-    if ( mysqli_connect_errno() ) 
-    {
-        // If there is an error with the connection, stop the script and display the error.
-        exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-    }
-
-    if ($con->connect_error) 
-    {
-        die("Connection failed: " . $con->connect_error);
-    }
-
+    //gets the eventID from the GET array
     $eventID = $_GET['eventID'];
 
+    //displays an error emssage if the eventID is not set
     if (!isset($eventID))
     {
         echo("event id empty");
     }
 
+    //otherwise performs the following functions
     else if (isset($eventID))
     {
 
-        $sql = "SELECT eventID, eventDateTime, eventType FROM `unn_w19003579`.`event` WHERE `event`.`eventID` = $eventID";
-        $result = $con->query($sql);
-        
-        if ($result->num_rows > 0)
-        {
-            while($row = $result->fetch_assoc())
-            {
-                $eventdate = $row["eventDateTime"];
-                $eventname = $row["eventType"];
-            }
-        }
+      //sql query for getting the event based on the eventID
+      $sql = "SELECT eventID, eventDateTime, eventType FROM `unn_w19003579`.`event` WHERE `event`.`eventID` = $eventID";
+      $result = $con->query($sql);
+      
+      //takes place if the result set is not empty
+      if ($result->num_rows > 0)
+      {
 
-        else
+        //gets the details for the event into an array
+        while($row = $result->fetch_assoc())
         {
-            echo "ERROR: Could not execute $sql. " . mysqli_error($con);
+          $eventdate = $row["eventDateTime"];
+          $eventname = $row["eventType"];
         }
+        
+      }
+
+      //shows an error message if the sql cannot be run
+      else
+      {
+        echo "ERROR: Could not execute $sql. " . mysqli_error($con);
+      }
         
     }
 
+    //ends connection with the database
     $con->close();
 
     ?>
 
   <body>
       <div id="editFormContainer">
+        
+        <!-- displays the form for editing the event and prepopulates it with data from the database -->
         <form id="editForm" action="updateEvent.php" method="get">
             <input type="hidden" id="eventID" name="eventID" value="<?php echo $eventID; ?>" readonly><br>
             <label for="eventname">Event Name: </label><br>
@@ -75,14 +71,17 @@
   </body>
 
   <script>
-      const returnBtn = document.getElementById("returnBtn");
-      returnBtn.addEventListener('click', goBack);
+    
+    //gets the return button and adds an event listener to it so a function is performed when it is clicked
+    const returnBtn = document.getElementById("returnBtn");
+    returnBtn.addEventListener('click', goBack);
 
-      function goBack()
-      {
-        //hardcode
-        window.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/admincalendar.php";
-      }
+    //the function returns the user to the calendar
+    function goBack()
+    {
+      //hardcode
+      window.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/admincalendar.php";
+    }
 
   </script>
 

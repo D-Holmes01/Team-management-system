@@ -6,6 +6,26 @@
     <link href='../style2.css' rel='stylesheet' />
   </head>
   <body>
+  <script>
+
+document.addEventListener('DOMContentLoaded', function() 
+{
+
+    //link the html elements to variables
+    var returnBtn = document.getElementById('returnBtn');
+    var submitBtn = document.getElementById('submitBtn');
+
+    //add an event listener for the return button
+    returnBtn.addEventListener('click', function()
+    {
+        //returns the user to the calendar
+        document.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/captainCalendar.php";
+    });
+
+});
+    
+
+</script>
       <div id="teamSelectionForm">
           <form action="updateTeam.php" method="get" autocomplete="off">
               <table>
@@ -16,157 +36,130 @@
                 $_SESSION['loggedin'] = true;
                 $_SESSION['userRole'] = 2;
 
+                //perform the functions if the user is logged in
                 if ((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin'] == TRUE))
                 {
+
+                    //performs the functions if the user role is captain
                     if ($_SESSION['userRole'] == '2')
                     {
-                        $DATABASE_HOST = 'localhost';
-                        $DATABASE_USER = 'unn_w19003579';
-                        $DATABASE_PASS = 'Group123.';
-                        $DATABASE_NAME = 'unn_w19003579';
 
-                        $eventID = $_GET['eventID'];
+                        //used to connect to database
+                        require_once('connect.php');
 
-                        require_once("checkSquad.php");
-                        // $_SESSION['squad'] = '8';
-                        // $squad = $_SESSION['squad'];
-
-                        // Try and connect using the info above.
-                        $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-
-                        if ( mysqli_connect_errno() ) 
-                        {
-                            // If there is an error with the connection, stop the script and display the error.
-                            exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-                        }
-
-                        if ($con->connect_error) 
-                        {
-                            die("Connection failed: " . $con->connect_error);
-                        }
-
-                        else
-                        {
-                            echo "<input type='hidden' name='matchID' id='matchID' value='$eventID'></input>";
+                        //hidden input used to pass eventID
+                        echo "<input type='hidden' name='matchID' id='matchID' value='$eventID'></input>";
                             
-                            $sqlPositions = "SELECT position, positionID FROM position";
-                            $result = $con->query($sqlPositions);
+                        //sql for displaying positions
+                        $sqlPositions = "SELECT position, positionID FROM position";
+                        $result = $con->query($sqlPositions);
 
-                            if ($result->num_rows > 0)
+                        //if the result set is not empty
+                        if ($result->num_rows > 0)
+                        {
+                            //get the positions
+                            while($row = $result->fetch_assoc())
                             {
+                                //get the details of each position
+                                $position = $row["position"];
+                                $positionID = $row["positionID"];
 
-                                while($row = $result->fetch_assoc())
+                                //sql for select users based on squad and if they RSVP'd
+                                $sqlPlayers = "SELECT userFName, userSName, userPosition, user.userID, userRole, squadID FROM user JOIN eventplayer on (user.userID = eventplayer.userID) JOIN squadmember on (squadmember.userID = user.userID) WHERE squadID = '$squad' AND eventplayer.eventID = '$eventID' AND userRole = '1' OR userRole = '2' GROUP BY userID";
+                                $result2 = $con->query($sqlPlayers);
+
+                                //if the result set is not empty
+                                if ($result2->num_rows > 0)
                                 {
-                                    $position = $row["position"];
-                                    $positionID = $row["positionID"];
+                                    //display each position and a select input for each position containing the positionID
+                                    echo "<tr><td>" . $position . "</td><td> <select name='$positionID' class='selectTeamMember' id='selectTeamMember'><option hidden disabled selected value>Select a player</option>";
 
-                                    $sqlPlayers = "SELECT userFName, userSName, userPosition, user.userID, userRole, squadID FROM user JOIN eventplayer on (user.userID = eventplayer.userID) JOIN squadmember on (squadmember.userID = user.userID) WHERE squadID = '$squad' AND eventplayer.eventID = '$eventID' AND userRole = '1' OR userRole = '2' GROUP BY userID";
-                                    $result2 = $con->query($sqlPlayers);
-
-                                    if ($result2->num_rows > 0)
+                                    //for each player that has RSVP'd
+                                    while($row2 = $result2->fetch_assoc())
                                     {
-                                        echo "<tr><td>" . $position . "</td><td> <select name='$positionID' class='selectTeamMember' id='selectTeamMember'><option hidden disabled selected value>Select a player</option>";
+                                        //stores the details of the player
+                                        $userFName = $row2["userFName"];
+                                        $userSName = $row2["userSName"];
+                                        $userID = $row2["userID"];
+                                        $userPosition = $row2["userPosition"];
 
-                                        while($row2 = $result2->fetch_assoc())
+                                        //sql query for selecting players that are already selected for the match
+                                        $sql3 = "SELECT userID, matchID, position FROM matchteam WHERE userID='$userID' AND matchID = '$eventID' AND position='$positionID'; ";
+                                        $result3 = $con->query($sql3);
+
+                                        //if the user has already been selected to the match team in their preferred position, show them in their selected position
+                                        if(($result3->num_rows > 0) & ($userPosition == $positionID))
                                         {
-                                            $userFName = $row2["userFName"];
-                                            $userSName = $row2["userSName"];
-                                            $userID = $row2["userID"];
-                                            $userPosition = $row2["userPosition"];
-
-                                            $sql3 = "SELECT userID, matchID, position FROM matchteam WHERE userID='$userID' AND matchID = '$eventID' AND position='$positionID'; ";
-                                            $result3 = $con->query($sql3);
-
-                                            if(($result3->num_rows > 0) & ($userPosition == $positionID))
-                                            {
-                                                echo "<option selected value=' " . $userID . "'>" . $userFName . " " . $userSName . " (Preferred Position)</option>";
-                                            }
-                                            
-                                            else if ($result3->num_rows > 0)
-                                            {
-                                                echo "<option selected value=' " . $userID . "'>" . $userFName . " " . $userSName . "</option>";
-                                            }
-
-                                            else if ($userPosition == $positionID)
-                                            {
-                                                echo "<option value=' " . $userID . "'>" . $userFName . " " . $userSName . " (Preferred Position)</option>";                      
-                                            }
-
-                                            else
-                                            {
-                                                echo "<option value=' " . $userID . "'>" . $userFName . " " . $userSName . "</option>";
-                                            }
-
-                                            
+                                            echo "<option selected value=' " . $userID . "'>" . $userFName . " " . $userSName . " (Preferred Position)</option>";
+                                        }
+                
+                                        //if the user has already been selected to the match team show them in their selected position
+                                        else if ($result3->num_rows > 0)
+                                        {
+                                            echo "<option selected value=' " . $userID . "'>" . $userFName . " " . $userSName . "</option>";
                                         }
 
-                                        echo "</select> </td></tr>";
+                                        //if the user has not been selected to the match team and the selected position is their preferred one
+                                        else if ($userPosition == $positionID)
+                                        {
+                                            echo "<option value=' " . $userID . "'>" . $userFName . " " . $userSName . " (Preferred Position)</option>";                      
+                                        }
+
+                                        //if the user has not been selected to the match team and the selected position is not their preferred one
+                                        else
+                                        {
+                                            echo "<option value=' " . $userID . "'>" . $userFName . " " . $userSName . "</option>";
+                                        }
+
+                                            
+                                    }
+
+                                    echo "</select> </td></tr>";
                                         
-                                    }
-
-                                    else
-                                    {
-                                        echo "<tr><td>" . $position . "</td><td>No players available for this position</td></tr>";
-                                    }
-
-
-                                    
                                 }
 
+                                //error message to display if no players are available for selection
+                                else
+                                {
+                                    echo "<tr><td>" . $position . "</td><td>No players available for this position</td></tr>";
+                                }
 
+                                    
                             }
 
-                            else
-                            {
-                                echo "Position table is empty";
-                            }
-
-                            echo "<button type='submit' id='submitBtn'> Update team </button>";
-                            echo "<button type='button' id='returnBtn'> Return to events list </button>";
 
                         }
 
+                        //error message to display if positions cannot be loaded
+                        else
+                        {
+                            echo "Position table is empty";
+                        }
+
+                        //buttons for submitting the form and returning to the previous page
+                        echo "<button type='submit' id='submitBtn'> Update team </button>";
+                        echo "<button type='button' id='returnBtn'> Return to events list </button>";
+                        
+
                     }
 
-                    else
-                    {
-                        echo "You do not have permission to access this page";
-                    }
-                }
-
+                //error message to display if the user does not have permission to access the page
                 else
                 {
-                    echo "You must be logged in to access this page";
+                    echo "You do not have permission to access this page";
                 }
 
-                ?>
+            }
 
-                <script>
-                    
-                    var returnBtn = document.getElementById('returnBtn');
-                    var submitBtn = document.getElementById('submitBtn');
+            //error message to display if the user is not logged in
+            else
+            {
+                echo "You must be logged in to access this page";
+            }
 
-                    returnBtn.addEventListener('click', function()
-                    {
-                        //hardcode
-                        document.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/captainCalendar.php";
-                    });
-
-                    //submitBtn.addEventListener('click', submit);
-                    //var duplicates = [];
-
-
-                    //let select = document.querySelectorAll('select');
-                    //select.onchange = handleChange(this);
-
-                    /* function handleChange(e)
-                    {
-                        var value = e.value;
-                        console.log(value);
-                    } */
-
-
-                </script>
+            
+            ?>
+    
 
               </table>
           </form>

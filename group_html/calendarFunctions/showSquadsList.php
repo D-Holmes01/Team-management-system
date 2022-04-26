@@ -1,41 +1,31 @@
 <?php
 
-    $DATABASE_HOST = 'localhost';
-    $DATABASE_USER = 'unn_w19003579';
-    $DATABASE_PASS = 'Group123.';
-    $DATABASE_NAME = 'unn_w19003579';
+    //used to connect to the database
+    require_once('connect.php');
 
-    // Try and connect using the info above.
-    $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-    if ( mysqli_connect_errno() ) 
+    //sql query for getting the squads
+    $sql = "SELECT squadName, squadID from squad";
+    $result = $con->query($sql);
+
+    //takes place if the result set is not empty
+    if ($result->num_rows > 0)
     {
-        // If there is an error with the connection, stop the script and display the error.
-        exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-    }
 
-    if ($con->connect_error) 
-    {
-        die("Connection failed: " . $con->connect_error);
-    }
-
-        $sql = "SELECT squadName, squadID from squad";
-        $result = $con->query($sql);
-
-        if ($result->num_rows > 0)
+        //displays the squads as different options for a select input field
+        while ($row = $result->fetch_assoc())
         {
-
-            while ($row = $result->fetch_assoc())
-            {
-              echo "<option value='" . $row['squadID'] . "'>" . $row['squadName'] . "</option>";
-            }
-
+            echo "<option value='" . $row['squadID'] . "'>" . $row['squadName'] . "</option>";
         }
 
-        else
-        {
-            echo "Squad list empty";
-        }
+    }
 
+    //display an error message if the squad list cannot be loaded
+    else
+    {
+        echo "Squad list empty";
+    }
+
+    //ends the connection with the database
     $con->close();
 
 ?>

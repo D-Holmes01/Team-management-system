@@ -8,39 +8,28 @@
   <body>
     <?php
 
-    $DATABASE_HOST = 'localhost';
-    $DATABASE_USER = 'unn_w19003579';
-    $DATABASE_PASS = 'Group123.';
-    $DATABASE_NAME = 'unn_w19003579';
+    //this file is used to connect to the database
+    require_once('connect.php');
 
-    // Try and connect using the info above.
-    $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-    if ( mysqli_connect_errno() ) 
-    {
-        // If there is an error with the connection, stop the script and display the error.
-        exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-    }
-
-    if ($con->connect_error) 
-    {
-        die("Connection failed: " . $con->connect_error);
-    }
-
+    //sets the eventID from the $GET array
     $eventID = $_GET['eventID'];
 
-
+    //displays an error if the eventID is not set
     if (!isset($eventID))
     {
         echo("event id empty");
     }
 
+    //otherwise the following is performed
     else if (isset($eventID))
     {
 
+        //sql query for getting the list of users attending a certain event
         $sql = "SELECT userFName, userSName, eventDateTime, eventType, eventCaptain FROM eventplayer JOIN event on (eventplayer.eventID = event.eventID) JOIN user on (eventplayer.userID = user.userID) WHERE eventplayer.eventID = '$eventID' ";
         $result = $con->query($sql);
         $result2 = $con->query($sql);
         
+        //the following is performed if the result set is not null
         if ($result->num_rows > 0)
         {
 
@@ -49,10 +38,13 @@
             $eventname = $headers["eventType"];
             $datetime = $headers["eventDateTime"];
 
+            //displays the event name and date/time
             echo "<div id='tableTitle'> Attendance list for: " . $eventname . " on " . $datetime . "</div><br>";
 
+            //the headers for the table
             echo "<table><tr><th>First Name</th><th>Surname</th></tr>";
 
+            //displays the names of the users that are attending
             while($row = $result->fetch_assoc())
             {
                 $firstname = $row["userFName"];
@@ -65,14 +57,15 @@
 
         }
 
+        //an error message is displayed if the attendance list is empty
         else
         {
-            //echo "ERROR: Could not execute $sql. " . mysqli_error($con);
             echo "Attendance list empty";
         }
         
     }
 
+    //the connection to the database is ended
     $con->close();
 
     ?>

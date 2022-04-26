@@ -8,55 +8,47 @@
 
     <?php
 
-    $DATABASE_HOST = 'localhost';
-    $DATABASE_USER = 'unn_w19003579';
-    $DATABASE_PASS = 'Group123.';
-    $DATABASE_NAME = 'unn_w19003579';
+    //used to connect to the database
+    require_once('connect.php');
 
-
-    // Try and connect using the info above.
-    $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-    if ( mysqli_connect_errno() ) 
-    {
-        // If there is an error with the connection, stop the script and display the error.
-        exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-    }
-
-    if ($con->connect_error) 
-    {
-        die("Connection failed: " . $con->connect_error);
-    }
-
+    //sets the eventID and userID based on data from the $GET array
     $eventID = $_GET['eventID'];
     $userID = $_GET['userID'];
 
+    //displays an error message if the eventID is not set
     if (!isset($eventID))
     {
         echo("event id empty");
     }
 
+    //displays an error message if the userID is not set
     if (!isset($userID))
     {
         echo("user id empty");
     }
 
+    //otherwise performs the following functions
     else
     {
 
-        $sql = "INSERT INTO `unn_w19003579`.`eventplayer` (`eventPlayerID`, `eventID`, `userID`) VALUES (NULL, '$eventID', '$userID');";
-        
-        if (mysqli_query($con, $sql))
-        {
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-        }
+      //sql query for inserting a user into the eventplayer database, which is used for managing the RSVP's
+      $sql = "INSERT INTO `unn_w19003579`.`eventplayer` (`eventPlayerID`, `eventID`, `userID`) VALUES (NULL, '$eventID', '$userID');";
+      
+      //returns the user to the previous page if the sql was successfull
+      if (mysqli_query($con, $sql))
+      {
+          header('Location: ' . $_SERVER['HTTP_REFERER']);
+      }
 
-        else
-        {
-            echo "ERROR: Could not execute $sql. " . mysqli_error($con);
-        }
+      //otherwise an error message id displayed
+      else
+      {
+          echo "ERROR: Could not execute $sql. " . mysqli_error($con);
+      }
         
     }
 
+    //ends the connection with the database
     $con->close();
 
     ?>
