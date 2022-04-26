@@ -1,14 +1,15 @@
 <?php
-include"function.php";
+//start session so that variables can be passed if needed
+session_start();
 // Change this to your connection info.
 $DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'unn_w19003579';
+$DATABASE_USER = 'uun_w19003579';
 $DATABASE_PASS = 'Group123.';
 $DATABASE_NAME = 'unn_w19003579';
 
 // Try and connect using the info above.
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-if ( mysqli_connect_errno() ) {
+if (mysqli_connect_errno()) {
 	// If there is an error with the connection, stop the script and display the error.
 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 }
@@ -18,14 +19,17 @@ if ( mysqli_connect_errno() ) {
 <html>
 
 <head>
+	<!-- setup title, charset and style-->
 	<meta charset="utf-8">
 	<title>Register</title>
 	<link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
+	<!-- registration div -->
 	<div class="register">
 		<h1>Register</h1>
+		<!-- form which will attempt to register the inputted detail -->
 		<form action="register.php" method="post" autocomplete="off">
 			<label for="email">
 				<i class="fas fa-envelope"></i>
@@ -64,10 +68,11 @@ if ( mysqli_connect_errno() ) {
 				<option value="14">Right Wing</option>
 				<option value="15">Fullback</option>
 			</select>
-<div></div><br>
-			<label for="team"> 
+			<div></div><br>
+			<label for="team">
 				<i class="fas fa-team"></i>
 			</label>
+			<!-- list of selects are loaded from database -->
 			<select type="select" name="team" id="team">
 				<?php
 				$result = $con->query('SELECT * from team;');
@@ -83,7 +88,7 @@ if ( mysqli_connect_errno() ) {
 				?>
 			</select>
 			<a href="index.html"><i class="login"></i>Already have an account? Login</a>
-			<input type="submit" value="Register"><!--  -->
+			<input type="submit" value="Register">
 		</form>
 	</div>
 </body>
@@ -91,38 +96,36 @@ if ( mysqli_connect_errno() ) {
 </html>
 
 <?php
-// Now we check if the data was submitted, isset() function will check if the data exists.
+// Check is the data is submitted
 if (!isset($_POST['email'], $_POST['password'], $_POST['fname'], $_POST['sname'], $_POST['position'])) {
-	// Could not get the data that should have been sent.
+	// Warning message
 	exit('Please complete the registration form!');
 }
-// Make sure the submitted registration values are not empty.
+//Ensure the inputs are filled
 if (empty($_POST['email'] || $_POST['password'] || $_POST['fname'] || $_POST['sname'] || $_POST['position'])) {
-	// One or more values are empty.
+	// Warning message
 	exit('Please complete the registration form');
 }
-// We need to check if the account with that username exists.
+//Check that the username entered does not exist
 if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
-	// Bind parameters (s = string, i = int, b = blob, etc), hash the password using the PHP password_hash function.
+	//Bind username to string
 	$stmt->bind_param('s', $_POST['email']);
 	$stmt->execute();
 	$stmt->store_result();
-	// Store the result so we can check if the account exists in the database.
+	// Store result to check later as seen below
 	if ($stmt->num_rows > 0) {
-		// email already exists
-		echo 'Email exists, please choose another!';
+		// username already exists
+		echo 'username exists, please choose another!';
 	} else {
-		if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-			exit('Email is not valid!');
-		}
+		//Check password is the correct length
 		if (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {
 			exit('Password must be between 5 and 20 characters long!');
 		}
 
-		// Username doesnt exists, insert new account
+		// Username doesnt exists, insert new account where position is null
 		if ($_POST['position'] == "0") {
 			if ($stmt = $con->prepare("INSERT INTO user (userEmail, userPassword, userFName, userSName, userTeam) VALUES (?, ?, ?, ?, ?)")) {
-				// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
+				//Hash password
 				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 				$_SESSION["name"] = $stmt;
 				$stmt->bind_param('ssss', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['team']);
@@ -130,14 +133,14 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 					echo 'You have successfully registered, you can now login!';
 				}
 			} else {
-				// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
+				// Something is wrong with the sql statement
 				echo 'Could not prepare statement!';
 			}
 		}
 		// Username doesnt exists, insert new account
 		else if ($_POST['position'] != "0") {
 			if ($stmt = $con->prepare("INSERT INTO user (userEmail, userPassword, userFName, userSName, userPosition, userTeam) VALUES (?, ?, ?, ?, ?, ?)")) {
-				// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
+				//Hash password
 				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 				$_SESSION["name"] = $stmt;
 				$stmt->bind_param('ssssi', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['position'], $_POST['team']);
@@ -152,7 +155,7 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 	}
 	$stmt->close();
 } else {
-	// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
+	//Warning message
 	echo 'Could not prepare statement!';
 }
 $con->close();
