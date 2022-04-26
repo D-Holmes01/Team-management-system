@@ -1,76 +1,67 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
-session_start();
-// If the user is not logged in redirect to the login page...
-if (!isset($_SESSION['loggedin'])) {
-    header('Location: index.html');
-    exit;
-}
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'unn_w19003579';
-$DATABASE_PASS = 'Group123.';
-$DATABASE_NAME = 'unn_w19003579';
-$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-if (mysqli_connect_errno()) {
-    exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-}
-// We don't have the password or email info stored in sessions so instead we can get the results from the database.
-$stmt = $con->prepare('SELECT userPassword, userEmail FROM user WHERE userId = ?');
-// In this case we can use the account ID to get the account info.
-$stmt->bind_param('i', $_SESSION['userID']);
-$stmt->execute();
-$stmt->bind_result($password, $email);
-$stmt->fetch();
-$stmt->close();
-
-$result = $con->query("SELECT * from user where user.userTeam = " . $_SESSION['teamID'] . ";");
+//call function which will connect to database and send to login if no one is logged in.
+include "function.php";
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
+    <!-- web page setup, setting charset, title and stylesheets -->
     <meta charset="utf-8">
-    <title>Profile Page</title>
+    <title>Admin</title>
     <link href="style.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.0/css/all.css">
-    <script type="text/javascript" src="assessmentJS.js"></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
 </head>
+<!-- body of webpage, class loggedin so that for different css -->
 
 <body class="loggedin">
+    <!-- nav bar -->
     <nav class="navtop">
         <div>
-            <h1>Website Title</h1>
+            <!-- Nav title and links, admin link hidden due to being the present page -->
+            <h1>Admin</h1>
+            <a href="admin.php"><i class="fa-solid fa-screwdriver-wrench"></i>Admin</a>
             <a href="home.php"><i class="fa-solid fa-house"></i>Home</a>
             <a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
             <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
         </div>
     </nav>
+    <!-- page content -->
     <div class="content">
+        <!-- delete user form -->
         <div id="deleteUser">
+            <!-- title -->
+            <h2>Delete user/s</h2>
+            <!-- delete user form -->
             <form action="deleteUser.php" method="post">
-                <p>Users:</p>
+                <h3>Users:</h3>
+                <!-- select filled from users from the database -->
                 <select name="users" id="users">
-                    <?php while (
+                    <?php $result = $con->query("SELECT * from user where user.userTeam = " . $_SESSION['teamID'] . ";");
+                    while (
                         $ri = mysqli_fetch_array($result)
                     ) {
                     ?>
                         <option value="<?php echo $ri['userID'] ?>">
                             <?php echo $ri['userFName'] . " " . $ri['userSName'] ?>
                         </option>
-               
-            <?php
-                     }
-            ?></select>
-            <input type="submit" id="deleteUser"></input>
+
+                    <?php
+                    }
+                    ?>
+                </select>
+                <!-- submit which will run the delete user code via deleteuser.php -->
+                <input type="submit" id="deleteUser"></input>
             </form>
         </div>
-
+        <!-- delete team form -->
         <div id="deleteTeam">
+            <h2>Delete team/s</h2>
             <form action="deleteTeam.php" method="post">
+                <h3>Teams</h3>
+                <!-- select filled from teams in the database associated with the user's club -->
                 <select name="teams" id="teams">
-                    <p>Teams</p>
                     <?php
                     $result = $con->query("SELECT squad.squadID, squad.squadName from teamSquad LEFT JOIN squad on squad.squadID = teamSquad.squadID where teamSquad.teamID = " . $_SESSION['teamID'] . ";");
                     while (
@@ -85,6 +76,7 @@ $result = $con->query("SELECT * from user where user.userTeam = " . $_SESSION['t
                     }
                     ?>
                 </select>
+                <!-- run assign team code on submit -->
                 <input type="submit" id="assignTeam"></input>
             </form>
         </div>
