@@ -1,56 +1,49 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
-session_start();
-// If the user is not logged in redirect to the login page...
-if (!isset($_SESSION['loggedin'])) {
-	header('Location: index.html');
-	exit;
-}
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'unn_w19003579';
-$DATABASE_PASS = 'Group123.';
-$DATABASE_NAME = 'unn_w19003579';
-$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
-if (mysqli_connect_errno()) {
-	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
-}
-// We don't have the password or email info stored in sessions so instead we can get the results from the database.
-$stmt = $con->prepare('SELECT userPassword, userEmail FROM user WHERE userId = ?');
-// In this case we can use the account ID to get the account info.
-$stmt->bind_param('i', $_SESSION['userID']);
-$stmt->execute();
-$stmt->bind_result($password, $email);
-$stmt->fetch();
-$stmt->close();
+//call function which will connect to database and send to login if no one is logged in.
+include "function.php";
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
+	<!-- web page setup, setting charset, title and stylesheets -->
 	<meta charset="utf-8">
-	<title>Profile Page</title>
+	<title>Admin</title>
 	<link href="style.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.0/css/all.css">
 </head>
+<!-- body of webpage, class loggedin so that for different css -->
 
 <body class="loggedin">
+	<!-- nav bar -->
 	<nav class="navtop">
 		<div>
+			<!-- Nav title and links, admin link hidden due to being the present page -->
 			<h1>Website Title</h1>
-			<a href="home.php"><i class="fa-solid fa-house"></i>Home</a>
+			<!-- Show admin link for users with admin priveldges-->
+			<?php if ($_SESSION['userRole'] == 3 || $_SESSION['userRole'] == 4 || $_SESSION['userRole'] == 5) {
+				echo '<a href="admin.php"><i class="fa-solid fa-screwdriver-wrench"></i>Admin</a>';
+			}
+			?>
 			<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
 			<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
 		</div>
 	</nav>
+	<!-- page content -->
 	<div class="content">
-		<h2>Profile Page</h2>
 		<div>
-			<p>Your account details are below:</p>
+			<!-- header -->
+			<h2>Account Details</h2>
+			<!-- account details displayed within a form so that edit can be made. Values are loaded from the session data-->
 			<form action="editAccount.php" method="post">
+				<h3>First name</h3>
 				<input id="Fname" name="Fname" type="text" value="<?= $_SESSION['name'] ?>">
+				<h3>Second name</h3>
 				<input id="Sname" name="Sname" type="text" value="<?= $_SESSION['surname'] ?>">
+				<h3>Biography</h3>
 				<input id="Bio" name="Bio" type="text" value="<?= $_SESSION['bio'] ?>">
+				<h3>Position</h3>
 				<select type="checkbox" name="Position" placeholder="Position" id="Position" content=<?= $_SESSION['position'] ?>>
 					<option selected disabled><?= $_SESSION['position'] ?></option>
 					<option value="null">Non-playing user</option>
@@ -70,13 +63,18 @@ $stmt->close();
 					<option value="14">Right Wing</option>
 					<option value="15">Fullback</option>
 				</select>
+				<!-- submit will edit user details based on the form details -->
 				<input type="submit" id="editUser"></input>
 		</div>
-</form>
+		</form>
+		<!-- delete user form -->
 		<div id="deleteUser">
+			<h2>Delete account</h2>
 			<form action="deleteUser.php" method="post">
-				<input type= "hidden" name="user" value = <?=$_SESSION['userID']?>>
-				<input type="submit" id="deleteUser"></input>
+				<!-- hidden input to save userId and use form format -->
+				<input type="hidden" name="user" value=<?= $_SESSION['userID'] ?>>
+				<!-- submit will run delete account code -->
+				<input type="submit" value="Delete account" id="deleteUser"></input>
 			</form>
 		</div>
 	</div>
