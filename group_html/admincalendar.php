@@ -1,8 +1,3 @@
-<?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
-?>
-
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -16,6 +11,8 @@ include "function.php";
     <!-- scripts used to load the calendar -->
     <script src='fullcalendar/main.js'></script>
     <script src='adminCalendar.js'></script>
+    <?php session_start(); ?>
+    
   </head>
   <!-- nav bar -->
   <nav class="navtop">

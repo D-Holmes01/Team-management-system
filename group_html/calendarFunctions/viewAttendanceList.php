@@ -1,8 +1,3 @@
-<?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
-?>
-
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -12,6 +7,8 @@ include "function.php";
   </head>
   <body>
     <?php
+
+    session_start();
 
     //this file is used to connect to the database
     require_once('connect.php');
@@ -74,8 +71,6 @@ include "function.php";
     $con->close();
 
     ?>
-
-    <!-- add return button -->
 
   </body>
 </html>

@@ -1,9 +1,6 @@
 <?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
-?>
 
-<?php
+session_start();
 
 //this file is used to connect to the database
 require_once('connect.php');
@@ -29,20 +26,31 @@ if (!isset($userID))
 else
 {
 
-    //sql for deleting a player from the eventplayer table
-    $sql = "DELETE FROM `unn_w19003579`.`eventplayer` WHERE `eventID` = '$eventID' AND `userID` = '$userID'";
-    
-    //returns the user to the previous page if the sql was successful
-    if (mysqli_query($con, $sql))
+    try
     {
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        //sql for deleting a player from the eventplayer table
+        $sql = "DELETE FROM `unn_w19003579`.`eventplayer` WHERE `eventID` = '$eventID' AND `userID` = '$userID'";
+        
+        //returns the user to the previous page if the sql was successful
+        if (mysqli_query($con, $sql))
+        {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+
+        //show an error message otherwise
+        else
+        {
+            echo "ERROR: Could not execute $sql. " . mysqli_error($con);
+        }
+        }
+
+    catch (Exception $e)
+    {
+        throw new Exception("Error: " . $e->getMessage(), 0, $e);
     }
 
-    //show an error message otherwise
-    else
-    {
-        echo "ERROR: Could not execute $sql. " . mysqli_error($con);
-    }
+
+    
     
 }
 

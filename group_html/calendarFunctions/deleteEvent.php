@@ -1,9 +1,6 @@
 <?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
-?>
 
-<?php
+session_start();
 
 //this file is used to make sure the current user has administrator privileges
 require_once('checkAdminPrivilege.php');

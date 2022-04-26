@@ -1,6 +1,5 @@
 <?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -36,9 +35,7 @@ include "function.php";
     //used to connect to the database
     require_once('calendarFunctions/connect.php');
 
-    //hardcode
-    $userID = '32';
-
+    $userID = $_SESSION['userID'];
 
     //displays an error message if the userID is not present
     if (!isset($userID))
@@ -97,7 +94,7 @@ include "function.php";
     
     <div id='unavailableFormContainer'>
         <!-- hidden form used to pass details for when the change availability button is pressed  -->
-      <form id="unavailableForm" autocomplete="off" action="changeAvailability.php" method="post">
+      <form id="unavailableForm" autocomplete="off" action="calendarFunctions/changeAvailability.php" method="post">
         <input type="hidden" id="eventID" name="eventID">
         <input type="hidden" id="userID" name="userID" value="<?php echo $userID ?>">
       </form>

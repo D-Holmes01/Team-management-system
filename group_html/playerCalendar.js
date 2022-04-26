@@ -8,10 +8,6 @@ function closeOptionForm()
 document.addEventListener('DOMContentLoaded', function() 
 {
 
-    //remove hard code
-    var userID = '32';
-    var squadID = '8';
-
 
     //function used to RSVP
     function RSVP()

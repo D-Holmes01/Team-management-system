@@ -1,6 +1,5 @@
 <?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -36,10 +35,6 @@ document.addEventListener('DOMContentLoaded', function()
               <table>
                 <tr><th>Position</th><th>Player</th></tr>
                 <?php
-
-                //hardcode
-                $_SESSION['loggedin'] = true;
-                $_SESSION['userRole'] = 2;
 
                 //perform the functions if the user is logged in
                 if ((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin'] == TRUE))

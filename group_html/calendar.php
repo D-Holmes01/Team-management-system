@@ -1,8 +1,3 @@
-<?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
-?>
-
 <!DOCTYPE html>
 <html lang='en'>
   <head>
@@ -13,7 +8,7 @@ include "function.php";
   <body>
       <?php
 
-        
+      session_start();
 
       //takes place if the user is logged in
       if ((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin'] == TRUE))

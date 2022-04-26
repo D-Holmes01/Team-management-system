@@ -1,13 +1,6 @@
 <?php
-//call function which will connect to database and send to login if no one is logged in.
-include "function.php";
-?>
 
-<?php
-
-    //hardcode
-    $_SESSION['loggedin'] = TRUE;
-    $_SESSION['userRole'] = 3;
+    session_start();
 
     //sets adminStatus to false initially
     $adminStatus = FALSE;
