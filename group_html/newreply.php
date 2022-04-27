@@ -16,30 +16,59 @@
       <div>
          <!-- Nav title and links, admin link hidden due to being the present page -->
          <h1>Messageboard</h1>
-         <!-- Show admin link for users with admin priveldges-->
+         <!-- Showing links for users with admin priveldges-->
          
          <a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
          <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
          <a href="calendar.php"><i class="fa-solid fa-calendar-days"></i>Calendar</a>
          <a href="messageboard.php"><i class="fa-solid fa-message-board"></i>Messageboard</a>
-         <!-- Show MyEvents link for players -->
+         
          
       </div>
    </nav>
-
+<!-- connect to database via connect.php-->
      <?php
-include('connect.php');
+     include "connect.php";
 
-$_SESSION['userID']= 25;
-$time = time();
+     $_SESSION["userID"] = 25;
+     $time = time();
 
-mysqli_query($con,"INSERT INTO 'replies' (`title`, `message`, `author`, `replies`, `posted`) VALUES (NULL,'".$_POST['thread']."','".$_POST['message']."','".$_POST['author']."','$time')");
-  
-echo"INSERT INTO replies VALUES(NULL,".$_POST['thread'].",".$_POST['message'].",".$_POST['author'].",'$time')";
+     //Inserting form data into the replies table via SQL query using POST method
 
-mysqli_query($con,"UPDATE threads SET replies = replies + 1 WHERE id = ".$_POST['thread']."");
+     mysqli_query(
+         $con,
+         "INSERT INTO 'replies' (`title`, `message`, `author`, `replies`, `posted`) VALUES (NULL,'" .
+             $_POST["thread"] .
+             "','" .
+             $_POST["message"] .
+             "','" .
+             $_POST["author"] .
+             "','$time')"
+     );
 
-echo "Reply Posted.<br><a href='msg.php?id=".$_POST['thread'].">Return</a>";
+//Echoing the insert form data onto a live comment to display what data has been inserted where, also helps to debug code faults
+     echo "INSERT INTO replies VALUES(NULL," .
+         $_POST["thread"] .
+         "," .
+         $_POST["message"] .
+         "," .
+         $_POST["author"] .
+         ",'$time')";
 
-?>
+         //updating the threads tables to count '+1' counting the ammount of replies per thread
 
+     mysqli_query(
+         $con,
+         "UPDATE threads SET replies = replies + 1 WHERE id = " .
+             $_POST["thread"] .
+             ""
+     );
+//Echoing success when posting a reply
+     echo "Reply Posted.<br><a href='msg.php?id=" .
+         $_POST["thread"] .
+         ">Return</a>";
+     ?>
+
+ ?>
+</body>
+</html>
