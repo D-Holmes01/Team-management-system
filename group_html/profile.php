@@ -9,7 +9,7 @@ include "function.php";
 <head>
 	<!-- web page setup, setting charset, title and stylesheets -->
 	<meta charset="utf-8">
-	<title>Admin</title>
+	<title>Profile</title>
 	<link href="style.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.0/css/all.css">
 </head>
@@ -20,7 +20,7 @@ include "function.php";
 	<nav class="navtop">
       <div>
          <!-- Nav title and links, admin link hidden due to being the present page -->
-         <h1>Website Title</h1>
+         <h1>Profile</h1>
          <!-- Show admin link for users with admin priveldges-->
          <?php if ($_SESSION['userRole'] == 3 || $_SESSION['userRole'] == 4 || $_SESSION['userRole'] == 5) {
             echo '<a href="admin.php"><i class="fa-solid fa-screwdriver-wrench"></i>Admin</a>';
