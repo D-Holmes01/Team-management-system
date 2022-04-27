@@ -18,7 +18,7 @@
   <nav class="navtop">
       <div>
          <!-- Nav title and links, admin link hidden due to being the present page -->
-         <h1>Website Title</h1>
+         <h1>Calendar</h1>
          <!-- Show admin link for users with admin priveldges-->
          <?php if ($_SESSION['userRole'] == 3 || $_SESSION['userRole'] == 4 || $_SESSION['userRole'] == 5) {
             echo '<a href="admin.php"><i class="fa-solid fa-screwdriver-wrench"></i>Admin</a>';
