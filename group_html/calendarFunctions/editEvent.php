@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <title>Edit Event Form</title>
-    <link href='style2.css' rel='stylesheet' />
+    <link href='../style2.css' rel='stylesheet' />
   </head>
 
     <?php
@@ -82,7 +82,7 @@
     function goBack()
     {
       //hardcode
-      window.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/admincalendar.php";
+      window.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/adminCalendar.php";
     }
 
   </script>

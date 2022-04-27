@@ -55,10 +55,10 @@ session_start();
       {
 
         //display the title
-        echo "<div id='tableTitle'> My Events </div><br>";
+        echo "<div id='tableTitleMV'> My Events </div><br>";
 
         //display the headers for the table
-        echo "<table><tr><th>Event</th><th>Date and Time</th><th>Change Availability</th></tr>";
+        echo "<table><tr id='tableHeaderMV'><th>Event</th><th>Date and Time</th><th>Change Availability</th></tr>";
 
         //display the events
         while($row = $result->fetch_assoc())
@@ -69,7 +69,7 @@ session_start();
           $eventID = $row["eventID"];
         
           //display the event details along with a button that allows the user to change their availability
-          echo "<tr><td>" . $eventName . "</td><td>" . $datetime . "</td><td><button type='submit' form='unavailableForm' id='unavailableButton' onClick='changeAvailability($eventID)'>Mark as Unavailable</button></td></tr>";
+          echo "<tr id='MVrows'><td>" . $eventName . "</td><td>" . $datetime . "</td><td><button type='submit' form='unavailableForm' id='unavailableButton' onClick='changeAvailability($eventID)'>Mark as Unavailable</button></td></tr>";
         
         }
 

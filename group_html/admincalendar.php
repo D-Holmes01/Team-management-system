@@ -39,7 +39,9 @@
 
     <!-- form used for adding an event -->
     <div id='formcontainer'>
-      <form id="form" action="calendarFunctions/addEvent.php" method="get" autocomplete="off">
+
+      <!-- post is used instead of get to make sure the user cannot enter details into the browser bar -->
+      <form id="form" action="calendarFunctions/addEvent.php" method="post" autocomplete="off">
         <label for="eventType">Event Type: </label><br><br>
 
         <!-- select input for choosing the event type -->

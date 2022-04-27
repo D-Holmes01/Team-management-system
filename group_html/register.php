@@ -115,7 +115,7 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 	// Store result to check later as seen below
 	if ($stmt->num_rows > 0) {
 		// username already exists
-		echo 'username exists, please choose another!';
+		exit('username exists, please choose another!');
 	} else {
 		//Check password is the correct length
 		if (strlen($_POST['password']) > 20 || strlen($_POST['password']) < 5) {

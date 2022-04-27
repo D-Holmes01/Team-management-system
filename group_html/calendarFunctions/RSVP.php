@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <title>Edit Event Form</title>
-    <link href='style2.css' rel='stylesheet' />
+    <link href='../style2.css' rel='stylesheet' />
   </head>
 
     <?php
@@ -34,10 +34,17 @@
     {
 
       //sql query for inserting a user into the eventplayer database, which is used for managing the RSVP's
-      $sql = "INSERT INTO `unn_w19003579`.`eventplayer` (`eventPlayerID`, `eventID`, `userID`) VALUES (NULL, '$eventID', '$userID');";
-      
+      //prepared statement for security
+      $sql = "INSERT INTO `unn_w19003579`.`eventplayer` (`eventPlayerID`, `eventID`, `userID`) VALUES (?, ?, ?);";
+      $stmt = $con->prepare($sql);
+
+      //this variable is used to pass a null value as the eventID as the table uses autoincrement
+      $e = NULL;
+
+      $stmt->bind_param("iii", $e, $eventID, $userID);
+
       //returns the user to the previous page if the sql was successfull
-      if (mysqli_query($con, $sql))
+      if ($stmt->execute())
       {
           header('Location: ' . $_SERVER['HTTP_REFERER']);
       }

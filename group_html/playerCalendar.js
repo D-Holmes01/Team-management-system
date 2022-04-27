@@ -4,31 +4,20 @@ function closeOptionForm()
     optionForm.style.display = 'none';
 }
 
-
 document.addEventListener('DOMContentLoaded', function() 
 {
 
 
-    //function used to RSVP
-    function RSVP()
-    {
-        //hardcode
-        //link used to go to RSVP page along with eventID and the userID
-        var link = "http://unn-w19003579.newnumyspace.co.uk/group/calendarFunctions/RSVP.php?eventID=" + eventID + "&userID="  + userID;
-        window.location.href = link;
-    }
-
     //linking the html elements to variables
     var calendarEl = document.getElementById('calendar');
     const optionForm = document.getElementById('optionForm');
+    var squadID = document.getElementById('squadID').value;
     const closeBtn = document.getElementById('closeBtn');
-    const RSVPBtn = document.getElementById('RSVPBtn');
+    var eventIDInput = document.getElementById('eventID');
     var eventID;
 
-    //binding event listeners to the buttons and the respective functions
-    closeBtn.addEventListener('click', closeOptionForm);
-    RSVPBtn.addEventListener('click', RSVP);
-        
+    //binding event listeners to the close button and the respective function
+    closeBtn.addEventListener('click', closeOptionForm);        
 
     var calendar = new FullCalendar.Calendar(calendarEl, 
     {
@@ -55,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function()
             var eventObj = info.event;
             optionForm.style.display = 'block';
             eventID = eventObj.id;
+            eventIDInput.value = eventID;
         }
 
     });

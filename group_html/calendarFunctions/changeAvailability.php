@@ -29,10 +29,13 @@ else
     try
     {
         //sql for deleting a player from the eventplayer table
-        $sql = "DELETE FROM `unn_w19003579`.`eventplayer` WHERE `eventID` = '$eventID' AND `userID` = '$userID'";
+        //prepared statement used for security
+        $sql = "DELETE FROM `unn_w19003579`.`eventplayer` WHERE `eventID` = ? AND `userID` = ?";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("ii", $eventID, $userID);
         
         //returns the user to the previous page if the sql was successful
-        if (mysqli_query($con, $sql))
+        if ($stmt->execute())
         {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         }

@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 
 //used to ensure the user has the appropriate privileges
 require_once('checkAdminPrivilege.php');
@@ -45,10 +44,13 @@ if ($adminStatus)
         $myDate = $newDate->format('Y-m-d H:i:s');
 
         //SQL query for getting the captain's ID based on the squad ID
-        $sql = "UPDATE `unn_w19003579`.`event` SET `eventDateTime`='$myDate',`eventType`='$eventname' WHERE `eventID`='$eventid';";
+        //prepared statement used for security
+        $sql = "UPDATE `unn_w19003579`.`event` SET `eventDateTime`= ?,`eventType`= ? WHERE `eventID`= ?;";
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("ssi", $myDate, $eventname, $eventid);
         
         //the user is redirected to the calendar if the sql was successful
-        if (mysqli_query($con, $sql))
+        if ($stmt->execute())
         {
             //hardcode
             $home = 'http://unn-w19003579.newnumyspace.co.uk/group/adminCalendar.php';

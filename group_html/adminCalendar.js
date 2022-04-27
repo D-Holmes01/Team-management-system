@@ -58,15 +58,16 @@ document.addEventListener('DOMContentLoaded', function()
     //function for deleting an event
     function deleteEvent()
     {
-        //hardcode
+        //hardcoded link
         var link = "http://unn-w19003579.newnumyspace.co.uk/group/calendarFunctions/deleteEvent.php?eventID=" + eventID;
         window.location.href = link;
+
     }
 
     //function for editing an event
     function editEvent()
     {
-        //hardcode
+        //hardcoded link
         var link = "http://unn-w19003579.newnumyspace.co.uk/group/calendarFunctions/editEvent.php?eventID=" + eventID;
         window.location.href = link;
     }
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function()
     //function for viewing the attendance list
     function viewAttendanceList()
     {
-        //hardcode
+        //hardcoded link
         var link = "http://unn-w19003579.newnumyspace.co.uk/group/calendarFunctions/viewAttendanceList.php?eventID=" + eventID;
         window.location.href = link;
     }

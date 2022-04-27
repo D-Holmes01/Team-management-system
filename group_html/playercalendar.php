@@ -12,8 +12,11 @@
     <script src='fullcalendar/main.js'></script>
     <script src='playerCalendar.js'></script>
     <?php
+    //session_start();
     require('calendarFunctions/checkSquad.php');
     ?>
+
+
   </head>
   <!-- nav bar -->
   <nav class="navtop">
@@ -40,14 +43,21 @@
 
     <!-- form used to display the available options -->
     <div id='optionFormContainer'>
-      <form id="optionForm">
+      <form id="optionForm" action='calendarFunctions/RSVP.php' method="get">
 
         <!-- button for RSVP'ing -->
-        <input type="button" value="RSVP" id="RSVPBtn">
+        <input type="submit" value="RSVP" id="RSVPBtn">
+
+        <!-- the userID and squadID are passed from the session array through a hidden input  -->
+        <input type="hidden" value="<?php echo $_SESSION['userID'] ?>" name="userID" id="userID">
+        <input type="hidden" value="<?php echo $_SESSION['squadID'] ?>" name="squadID" id="squadID">
+        <input type="hidden" value="" name="eventID" id="eventID">
 
         <!-- button for closing the form -->
         <input type="button" value="Close" id="closeBtn">
+
       </form>
+
     </div>
   </body>
 </html>

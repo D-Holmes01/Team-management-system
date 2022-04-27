@@ -52,17 +52,25 @@
                     //updates the matchteam table using the positionID and matchID if the result set is not empty
                     if ($result->num_rows > 0)
                     {
-                        $sql = "UPDATE matchteam SET userID='$user' WHERE position='$positionID' AND matchID='$matchID';";
+                        $sql = "UPDATE matchteam SET userID=? WHERE position=? AND matchID=?;";
+                        $stmt = $con->prepare($sql);
+                        $stmt->bind_param("iii", $user, $positionID, $matchID);
                     }
 
                     //otherwise a row is inserted if the position does not have a player specified to it
                     else
                     {
-                        $sql = "INSERT INTO `unn_w19003579`.`matchteam` (`matchTeamID`, `userID`, `matchID`, `position`) VALUES (NULL, '$user', '$matchID', '$positionID');";
+                        $sql = "INSERT INTO `unn_w19003579`.`matchteam` (`matchTeamID`, `userID`, `matchID`, `position`) VALUES (?, ?, ?, ?);";
+                        $stmt = $con->prepare($sql);
+
+                        //this variable is used to pass a null value as the table uses autoincrement
+                        $e = NULL;
+
+                        $stmt->bind_param("iiii", $e, $user, $matchID, $positionID);
                     }
 
                     //redirects the user to the previous page if the sql was successful
-                    if (mysqli_query($con, $sql))
+                    if ($stmt->execute())
                     {
                         header('Location: ' . $_SERVER['HTTP_REFERER']);
                     }

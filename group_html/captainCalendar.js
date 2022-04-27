@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function()
     const optionForm = document.getElementById('optionForm');
     const closeBtn = document.getElementById('closeBtn');
     const teamSelectionBtn = document.getElementById('teamSelectionBtn');
+    var eventIDInput = document.getElementById('matchIDT');
     var eventID;
 
     //binding event listeners to the buttons and the respective functions
@@ -57,6 +58,8 @@ document.addEventListener('DOMContentLoaded', function()
             var eventObj = info.event;
             optionForm.style.display = 'block';
             eventID = eventObj.id;
+            eventIDInput.value = 'babu';
+
         }
 
     });

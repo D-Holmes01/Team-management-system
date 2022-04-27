@@ -41,10 +41,12 @@ session_start();
 
     <!-- form used to display the available options -->
     <div id='optionFormContainer'>
-      <form id="optionForm">
+      <form id="optionForm" action="teamSelection.php" method="get">
 
         <!-- button used for team selection -->
         <input type="button" value="Team Selection" id="teamSelectionBtn">
+
+        <input type="hidden" value="" id="ev" name="matchID">
 
         <!-- button used to close the form -->
         <input type="button" value="Close" id="closeBtn">

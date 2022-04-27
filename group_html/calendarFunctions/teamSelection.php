@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once('checkSquad.php');
 ?>
 
 <!DOCTYPE html>
@@ -12,28 +12,28 @@ session_start();
   <body>
   <script>
 
-document.addEventListener('DOMContentLoaded', function() 
-{
-
-    //link the html elements to variables
-    var returnBtn = document.getElementById('returnBtn');
-    var submitBtn = document.getElementById('submitBtn');
-
-    //add an event listener for the return button
-    returnBtn.addEventListener('click', function()
+    document.addEventListener('DOMContentLoaded', function() 
     {
-        //returns the user to the calendar
-        document.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/captainCalendar.php";
+
+        //link the html elements to variables
+        var returnBtn = document.getElementById('returnBtnTS');
+        var submitBtn = document.getElementById('submitBtnTS');
+
+        //add an event listener for the return button
+        returnBtn.addEventListener('click', function()
+        {
+            //returns the user to the calendar
+            document.location.href = "http://unn-w19003579.newnumyspace.co.uk/group/captainCalendar.php";
+        });
+
     });
+        
 
-});
-    
-
-</script>
+    </script>
       <div id="teamSelectionForm">
           <form action="updateTeam.php" method="get" autocomplete="off">
               <table>
-                <tr><th>Position</th><th>Player</th></tr>
+                <tr><th id='positionHeader'>Position</th><th id='playerHeader'>Player</th></tr>
                 <?php
 
                 //perform the functions if the user is logged in
@@ -48,8 +48,12 @@ document.addEventListener('DOMContentLoaded', function()
                         require_once('connect.php');
 
                         //hidden input used to pass eventID
-                        echo "<input type='hidden' name='matchID' id='matchID' value='$eventID'></input>";
-                            
+                        $evID = $_GET['eventID'];
+                        echo "<input type='hidden' name='matchID' id='matchID' value='$evID'></input>";
+
+                        $eventID = $_GET['eventID'];
+                        $squad = $_SESSION['squadID'];
+
                         //sql for displaying positions
                         $sqlPositions = "SELECT position, positionID FROM position";
                         $result = $con->query($sqlPositions);
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function()
                                 if ($result2->num_rows > 0)
                                 {
                                     //display each position and a select input for each position containing the positionID
-                                    echo "<tr><td>" . $position . "</td><td> <select name='$positionID' class='selectTeamMember' id='selectTeamMember'><option hidden disabled selected value>Select a player</option>";
+                                    echo "<tr><td id='positionTS'>" . $position . "</td><td id='positionTS'> <select name='$positionID' class='selectTeamMember' id='selectTeamMember'><option hidden disabled selected value>Select a player</option>";
 
                                     //for each player that has RSVP'd
                                     while($row2 = $result2->fetch_assoc())
@@ -137,8 +141,8 @@ document.addEventListener('DOMContentLoaded', function()
                         }
 
                         //buttons for submitting the form and returning to the previous page
-                        echo "<button type='submit' id='submitBtn'> Update team </button>";
-                        echo "<button type='button' id='returnBtn'> Return to events list </button>";
+                        echo "<button type='submit' id='submitBtnTS'> Update team </button>";
+                        echo "<button type='button' id='returnBtnTS'> Return to events list </button>";
                         
 
                     }

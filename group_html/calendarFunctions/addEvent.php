@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+//session_start();
 
 //this file is used to ensure that the current user is logged in and has a user role that allows for adding events
 require_once('checkAdminPrivilege.php');
@@ -12,9 +12,9 @@ if ($adminStatus)
     require_once('connect.php');
 
     //the event details are gotten from $_GET
-    $eventname = $_GET['eventName'];
-    $datetime = $_GET['datetime'];
-    $squadID = $_GET['squad'];
+    $eventname = $_POST['eventName'];
+    $datetime = $_POST['datetime'];
+    $squadID = $_POST['squad'];
 
     //shows an error message if the event name is not set
     if (!isset($eventname))
@@ -61,10 +61,18 @@ if ($adminStatus)
                 if (isset($captainID))
                 {
                     //sql for inserting the event into the database
-                    $sqlInsert = "INSERT INTO `unn_w19003579`.`event` (`eventID`, `eventDateTime`, `eventType`, `eventCaptain`, `squadID`) VALUES (NULL, '$myDate', '$eventname', '$captainID', '$squadID');";
+                    //prepared statement is used to make sure the data entered does not cause problems to the table
+                    $sqlInsert = "INSERT INTO `unn_w19003579`.`event` (`eventID` ,`eventDateTime`, `eventType`, `eventCaptain`, `squadID`) VALUES (?, ?, ?, ?, ?)";
+                    $stmt = $con->prepare($sqlInsert);
+
+                    //this variable is used to pass a null value as the eventID as the table uses autoincrement
+                    $e = NULL;
+
+                    $stmt->bind_param("issii", $e, $myDate, $eventname, $captainID, $squadID);
+                    
 
                     //if the insert was successful, redirects the user to the calendar page
-                    if (mysqli_query($con, $sqlInsert))
+                    if ($stmt->execute())
                     {
                         header('Location: ' . $_SERVER['HTTP_REFERER']);
                     }
@@ -72,7 +80,7 @@ if ($adminStatus)
                     //if not, shows an error message along with the details
                     else
                     {
-                        echo "ERROR: Could not execute $sql. " . mysqli_error($con);
+                        echo "ERROR: Could not execute sql. " . mysqli_error($con);
                     }
                 
                 }

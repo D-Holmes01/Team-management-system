@@ -1,43 +1,51 @@
 <?php
 
-session_start();
+    session_start();
 
-//this file is used to connect to the database
-require_once('connect.php');
+    //this file is used to connect to the database
+    require_once('connect.php');
 
+    $userID = $_SESSION['userID'];
 
-//if the userID is set
-if ($userID != NULL)
-{
-
-    try
+    //if the userID is set
+    if (isset($userID))
     {
-        //sql query for getting the squad id based on the userID
-        $sql = "SELECT squadID FROM squadmember WHERE userID = '$userID'; ";
 
-        //used to run the query and get the results
-        $result = $con->query($sql);
-        $row = $result->fetch_assoc();
+        try
+        {
+            //sql query for getting the squad id based on the userID
+            $sql = "SELECT squadID FROM squadmember WHERE userID = '$userID'; ";
 
-        //stores the squadID into the _SESSION array
-        $squad = $row["squadID"];
-        $_SESSION['squadID'] = $squad;
-    }
+            $result = $con->query($sql);
+            $row = $result->fetch_assoc();
 
-    catch (Exception $e)
-    {
-        throw new Exception("Error: " . $e->getMessage(), 0, $e);
-    }
+            if ($result->num_rows > 0)
+            {
+                $squad = $row["squadID"];
+                $_SESSION["squadID"] = $squad;
+            }
 
-    
+            else
+            {
+                echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
+            }
+
+        }
+
+        catch (Exception $e)
+        {
+            throw new Exception("Error: " . $e->getMessage(), 0, $e);
+        }
+
         
-}
+            
+    }
 
-//otherwise display an error saying the user is not logged in
-else
-{
-    echo "User not logged in";
-}
+    //otherwise display an error saying the user is not logged in
+    else
+    {
+        echo "User not logged in";
+    }
     
 
 ?>
