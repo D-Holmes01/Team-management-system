@@ -51,7 +51,7 @@ if (mysqli_connect_errno()) {
 				<i class="fas fa-position"></i>
 			</label>
 			<select type="select" name="position" placeholder="Position" id="position" required>
-				<option value="null">Non-playing user</option>
+				<option value="0">Non-playing user</option>
 				<option value="1">Loosehead</option>
 				<option value="2">Hooker</option>
 				<option value="3">Tighthead Prop</option>
@@ -122,23 +122,8 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 			exit('Password must be between 5 and 20 characters long!');
 		}
 
-		// Username doesnt exists, insert new account where position is null
-		if ($_POST['position'] == "0") {
-			if ($stmt = $con->prepare("INSERT INTO user (userEmail, userPassword, userFName, userSName, userTeam) VALUES (?, ?, ?, ?, ?)")) {
-				//Hash password
-				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-				$_SESSION["name"] = $stmt;
-				$stmt->bind_param('ssss', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['team']);
-				if ($stmt->execute()) {
-					echo 'You have successfully registered, you can now login!';
-				}
-			} else {
-				// Something is wrong with the sql statement
-				echo 'Could not prepare statement!';
-			}
-		}
 		// Username doesnt exists, insert new account
-		else if ($_POST['position'] != "0") {
+		else if ($_POST['position'] != 0) {
 			if ($stmt = $con->prepare("INSERT INTO user (userEmail, userPassword, userFName, userSName, userPosition, userTeam) VALUES (?, ?, ?, ?, ?, ?)")) {
 				//Hash password
 				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
@@ -149,6 +134,22 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 				}
 			} else {
 				// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
+				echo 'Could not prepare statement!';
+			}
+		}
+
+		// Username doesnt exists, insert new account where position is null
+		if ($_POST['position'] == 0) {
+			if ($stmt = $con->prepare("INSERT INTO user (userEmail, userPassword, userFName, userSName, userTeam) VALUES (?, ?, ?, ?, ?)")) {
+				//Hash password
+				$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+				$_SESSION["name"] = $stmt;
+				$stmt->bind_param('ssssi', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['team']);
+				if ($stmt->execute()) {
+					echo 'You have successfully registered, you can now login!';
+				}
+			} else {
+				// Something is wrong with the sql statement
 				echo 'Could not prepare statement!';
 			}
 		}
