@@ -1,4 +1,4 @@
-<html lang="en">
+<!doctype html>
   <meta charset="UTF-8">
      <link href="css/home.css" rel="stylesheet" type="text/css">
 

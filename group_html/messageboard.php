@@ -52,7 +52,7 @@
              // Now we will show the available threads
          
              echo "<div>
-         <img class='profile' src='img/profile2.jpg' width='50'/>
+         <img class='profile' src='img/profile2.jpg' alt='one' width='50'/>
              <div class='comment-box'>
          <p><a href='msg.php?id=$r[id]'>$r[title]</a> ($r[replies])</h3><h4> $r[author] - $posted</p>
          </div>

@@ -1,14 +1,9 @@
-<DOCTYPE html>
-<html>
-
-<head>
+<!DOCTYPE html>
   <!-- web page setup, setting charset, title and stylesheets -->
   <meta charset="utf-8">
-  <title>Admin</title>
   <link href="style.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.0/css/all.css">
-</head>
-
+  <title>Admin</title>
 
 <body class="loggedin">
   <!-- nav bar -->
