@@ -10,7 +10,7 @@ $time = time();
 mysqli_query($con,"INSERT INTO `threads`(`title`, `message`, `author`, `replies`, `posted`) VALUES ('".$_POST['title']."','".$_POST['message']."','".$_SESSION['userID']."','0','$time')");
 
 
-header("Location: index.php");
+header("Location: messageboard.php");
 die();
 
 ?>
