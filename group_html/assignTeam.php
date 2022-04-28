@@ -8,7 +8,7 @@ if (!isset($_POST['teams'], $_POST['users'])) {
 	exit('Please fill both the team and user fields!');
 }
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare("Insert into squadMember(squadID, userID) values(" . $_POST['teams'] . "," . $_POST['users'] . ");")) {
+if ($stmt = $con->prepare("Insert into squadmember(squadID, userID) values(" . $_POST['teams'] . "," . $_POST['users'] . ");")) {
 	//Execute SQL
 	$stmt->execute();
 	//Return to the homepage
