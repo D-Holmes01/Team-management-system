@@ -29,7 +29,7 @@ window.location.href='home.php';
 		mail($email, "Account deleted", "Sorry to see you go");
 		//Return to the homepage
 		echo "<script> alert('User deleted');
-		window.location.href='index.php';
+		window.location.href='index.html';
 		</script>";
 	} else {
 		// Incorrect email
