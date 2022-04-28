@@ -37,7 +37,7 @@ include "function.php";
                 <h3>Users:</h3>
                 <!-- fill select with users -->
                 <select name="users" id="users">
-                    <?php $result = $con->query("SELECT * from user where user.userTeam = " . $_SESSION['teamID'] . ";");
+                    <?php $result = $con->query("SELECT * from user where user.userteam = " . $_SESSION['teamID'] . ";");
                     while (
                         $ri = mysqli_fetch_array($result)
                     ) {
