@@ -55,7 +55,7 @@ include "function.php";
                 <!-- select is populated by database teams -->
                 <select name="teams" id="teams">
                     <?php
-                    $result = $con->query("SELECT squad.squadID, squad.squadName from teamSquad LEFT JOIN squad on squad.squadID = teamSquad.squadID where teamSquad.teamID = " . $_SESSION['teamID'] . ";");
+                    $result = $con->query("SELECT squad.squadID, squad.squadName from teamsquad LEFT JOIN squad on squad.squadID = teamsquad.squadID where teamsquad.teamID = " . $_SESSION['teamID'] . ";");
                     while (
                         $ri = mysqli_fetch_array($result)
                     ) {
@@ -80,7 +80,7 @@ include "function.php";
                 <select name="teams" id="teams">
                     <!-- fill select with teams from database-->
                     <?php
-                    $result = $con->query("SELECT squad.squadID, squad.squadName from teamSquad LEFT JOIN squad on squad.squadID = teamSquad.squadID where teamSquad.teamID = " . $_SESSION['teamID'] . ";");
+                    $result = $con->query("SELECT squad.squadID, squad.squadname from teamsquad LEFT JOIN squad on squad.squadID = teamsquad.squadID where teamsquad.teamID = " . $_SESSION['teamID'] . ";");
                     while (
                         $ri = mysqli_fetch_array($result)
                     ) {
@@ -99,7 +99,7 @@ include "function.php";
 
                     <?php
                     echo 'SELECT * from user where user.userTeam = ' . $_SESSION['teamID'] . ' AND user.userRole < 3;';
-                    $result = $con->query('SELECT * from user where user.userTeam = ' . $_SESSION['teamID'] . ' AND user.userRole < 3;');
+                    $result = $con->query('SELECT * from user where user.userteam = ' . $_SESSION['teamID'] . ' AND user.userrole < 3;');
                     while (
                         $ri = mysqli_fetch_array($result)
                     ) {
