@@ -63,7 +63,7 @@ include "function.php";
                 <!-- select filled from teams in the database associated with the user's club -->
                 <select name="teams" id="teams">
                     <?php
-                    $result = $con->query("SELECT squad.squadID, squad.squadname from teamsquad LEFT JOIN squad on squad.squadID = teamsquad.squadID where teamsquad.teamID = " . $_SESSION['teamID'] . ";");
+                    $result = $con->query("SELECT squad.squadID, squad.squadName from teamsquad LEFT JOIN squad on squad.squadID = teamsquad.squadID where teamsquad.teamID = " . $_SESSION['teamID'] . ";");
                     while (
                         $ri = mysqli_fetch_array($result)
                     ) {
