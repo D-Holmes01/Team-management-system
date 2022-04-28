@@ -8,7 +8,7 @@ if (!isset($_POST['Fname'], $_POST['Sname'], $_POST['Position'])) {
 	exit('Please ensure a first and second name is entered alongside the positon the fields!');
 }
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare("UPDATE User SET userFName = '" . $_POST['Fname'] . "', userSName = '" . $_POST['Sname'] . "', userBio = '" . $_POST['Bio'] . "', userPosition = " . $_POST['Position'] . " WHERE userID = " . $_SESSION['userID'] . ";")) {
+if ($stmt = $con->prepare("UPDATE user SET userFName = '" . $_POST['Fname'] . "', userSName = '" . $_POST['Sname'] . "', userBio = '" . $_POST['Bio'] . "', userPosition = " . $_POST['Position'] . " WHERE userID = " . $_SESSION['userID'] . ";")) {
 	//Execute SQL
 	$stmt->execute();
 	// Update the session data
