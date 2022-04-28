@@ -21,7 +21,7 @@ if ($stmt = $con->prepare("UPDATE user SET userRole = " . $_POST['role'] . " WHE
 	$stmt->bind_result($email);
 	$stmt->fetch();
 	//mail the user
-	mail($email, "Role update", "You have been assigned to a new role, check the system");	
+	mail($email, "Role assigned", "You have been assigned a new role");
 	//If edited user is the logined in user edit the session role
 	if ($_POST['users'] == $_SESSION['userID']) {
 		$_SESSION['userRole'] = $_POST['role'];
