@@ -18,7 +18,7 @@
             <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
             <!-- Show calendar only if the user role for the logged in user has been set -->
             <?php if (isset($_SESSION['userRole'])){
-            echo '<a href="../calendar.php"><i class="fa-solid fa-calendar-days"></i>Calendar</a>';
+            echo '<a href="calendar.php"><i class="fa-solid fa-calendar-days"></i>Calendar</a>';
             }
             ?>
             <a href="messageboard.php"><i class="fa-solid fa-message-board"></i>Messageboard</a>
