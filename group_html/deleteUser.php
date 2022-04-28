@@ -3,7 +3,7 @@
 include "function.php";
 
 // Now we check if the data from the login form was submitted, isset() will check if the data exists.
-if (!isset($_POST['user'])) {
+if (!isset($_POST['userID'])) {
 	// Could not get the data
 	exit('Please fill both the email and password fields!');
 }
