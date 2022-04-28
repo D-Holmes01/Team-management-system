@@ -26,7 +26,7 @@ if ($stmt = $con->prepare("Delete from user WHERE userID =" . $_POST['userID'] .
 	echo "<script> alert('User deleted');
 		window.location.href='home.php';
 		</script>";
-} elseif ($_POST['userID'] == $_SESSION['userID'] && $_SESSION['userRole']) {
+} elseif ($_POST['userID'] == $_SESSION['userID'] && $_SESSION['userRole'] == "4") {
 	// Incorrect email
 	echo "<script> alert('Due to your role you cannot delete your account');
 window.location.href='home.php';
