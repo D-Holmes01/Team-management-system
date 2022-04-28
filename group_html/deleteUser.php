@@ -7,35 +7,36 @@ if (!isset($_POST['userID'])) {
 	// Could not get the data
 	exit('Please fill both the email and password fields!');
 }
-
-// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare("Delete from user WHERE userID =" . $_POST['userID'] . " and userRole <> 4;")) {
-	//Execute SQL
-	$stmt->execute();
-	//get user email
-	$stmt = $con->prepare("SELECT userEmail from user where userID = " . $_POST['userID']);
-	$stmt->execute();
-	// Store the result so we can check if the account exists in the database.
-	$stmt->store_result();
-	//bind email to variable
-	$stmt->bind_result($email);
-	$stmt->fetch();
-	//mail the user
-	mail($email, "Account deleted", "Sorry to see you go");
-	//Return to the homepage
-	echo "<script> alert('User deleted');
-		window.location.href='home.php';
-		</script>";
-} elseif ($_POST['userID'] == $_SESSION['userID'] && $_SESSION['userRole'] == "4") {
+if ($_POST['userID'] == $_SESSION['userID'] && $_SESSION['userRole'] == "4") {
 	// Incorrect email
 	echo "<script> alert('Due to your role you cannot delete your account');
 window.location.href='home.php';
 </script>";
 } else {
-	// Incorrect email
-	echo "<script> alert('Failed to delete user');
+	// Prepare our SQL, preparing the SQL statement will prevent SQL injection.
+	if ($stmt = $con->prepare("Delete from user WHERE userID =" . $_POST['userID'] . " and userRole <> 4;")) {
+		//Execute SQL
+		$stmt->execute();
+		//get user email
+		$stmt = $con->prepare("SELECT userEmail from user where userID = " . $_POST['userID']);
+		$stmt->execute();
+		// Store the result so we can check if the account exists in the database.
+		$stmt->store_result();
+		//bind email to variable
+		$stmt->bind_result($email);
+		$stmt->fetch();
+		//mail the user
+		mail($email, "Account deleted", "Sorry to see you go");
+		//Return to the homepage
+		echo "<script> alert('User deleted');
+		window.location.href='index.php';
+		</script>";
+	} else {
+		// Incorrect email
+		echo "<script> alert('Failed to delete user');
 		window.location.href='home.php';
 		</script>";
+	}
 }
 //close statement
 $stmt->close();
