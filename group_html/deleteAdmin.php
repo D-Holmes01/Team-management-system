@@ -37,7 +37,7 @@ include "function.php";
             <form action="deleteUser.php" method="post">
                 <h3>Users:</h3>
                 <!-- select filled from users from the database -->
-                <select name="users" id="users">
+                <select name="userID" id="users">
                     <?php $result = $con->query("SELECT * from user where user.userTeam = " . $_SESSION['teamID'] . ";");
                     while (
                         $ri = mysqli_fetch_array($result)

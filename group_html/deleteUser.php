@@ -12,6 +12,16 @@ if (!isset($_POST['user'])) {
 if ($stmt = $con->prepare("Delete from user WHERE userID =" . $_POST['userID'] . " and userRole <> 4;")) {
 	//Execute SQL
 	$stmt->execute();
+	//get user email
+	$stmt = $con->prepare("SELECT userEmail from user where userID = " . $_POST['userID']);
+	$stmt->execute();
+	// Store the result so we can check if the account exists in the database.
+	$stmt->store_result();
+	//bind email to variable
+	$stmt->bind_result($email);
+	$stmt->fetch();
+	//mail the user
+	mail($email, "Account deleted", "Sorry to see you go");	
 	//Return to the homepage
 	echo "<script> alert('User deleted');
 		window.location.href='home.php';

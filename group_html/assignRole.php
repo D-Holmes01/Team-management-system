@@ -12,6 +12,16 @@ if (!isset($_POST['users'], $_POST['role'])) {
 if ($stmt = $con->prepare("UPDATE User SET userRole = " . $_POST['role'] . " WHERE userID = " . $_POST['users'] . ";")) {
 	//Execute SQL
 	$stmt->execute();
+	//get user email
+	$stmt = $con->prepare("SELECT userEmail from user where userID = " . $_POST['users']);
+	$stmt->execute();
+	// Store the result so we can check if the account exists in the database.
+	$stmt->store_result();
+	//bind email to variable
+	$stmt->bind_result($email);
+	$stmt->fetch();
+	//mail the user
+	mail($email, "Role update", "You have been assigned to a new role, check the system");	
 	//If edited user is the logined in user edit the session role
 	if ($_POST['users'] == $_SESSION['userID']) {
 		$_SESSION['userRole'] = $_POST['role'];

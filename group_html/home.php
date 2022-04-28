@@ -34,6 +34,7 @@ include "function.php";
             echo '<a href="myEvents.php"><i class="fa-solid fa-calendar-xmark"></i>My Events</a>';
          }
          ?>
+         <a href="messageboard.php"><i class="fa-solid fa-message-board"></i>Messageboard</a>
          <a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
       </div>
    </nav>

@@ -131,6 +131,7 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 				$stmt->bind_param('ssssii', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['position'], $_POST['team']);
 				if ($stmt->execute()) {
 					echo 'You have successfully registered, you can now login!';
+					mail($_POST['email'],"Account registered","Hello " .$_POST['fname']. ", \n Welcome to the team!");
 				}
 			} else {
 				// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
@@ -147,6 +148,7 @@ if ($stmt = $con->prepare('SELECT UserId FROM user WHERE userEmail = ?')) {
 				$stmt->bind_param('ssssi', $_POST['email'], $password, $_POST['fname'], $_POST['sname'], $_POST['team']);
 				if ($stmt->execute()) {
 					echo 'You have successfully registered, you can now login!';
+					mail($_POST['email'],"Account registered","Hello " .$_POST['fname']. ", \n Welcome to the team!");
 				}
 			} else {
 				// Something is wrong with the sql statement

@@ -78,7 +78,7 @@ include "function.php";
 			<h2>Delete account</h2>
 			<form action="deleteUser.php" method="post">
 				<!-- hidden input to save userId and use form format -->
-				<input type="hidden" name="user" value=<?= $_SESSION['userID'] ?>>
+				<input type="hidden" name="userID" value=<?= $_SESSION['userID'] ?>>
 				<!-- submit will run delete account code -->
 				<input type="submit" value="Delete account" id="deleteUser"></input>
 			</form>
