@@ -9,7 +9,7 @@ if (!isset($_POST['users'], $_POST['role'])) {
 }
 
 // Prepare our SQL, preparing the SQL statement will prevent SQL injection.
-if ($stmt = $con->prepare("UPDATE User SET userRole = " . $_POST['role'] . " WHERE userID = " . $_POST['users'] . ";")) {
+if ($stmt = $con->prepare("UPDATE user SET userRole = " . $_POST['role'] . " WHERE userID = " . $_POST['users'] . ";")) {
 	//Execute SQL
 	$stmt->execute();
 	//get user email
