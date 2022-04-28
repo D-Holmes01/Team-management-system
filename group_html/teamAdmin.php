@@ -1,3 +1,4 @@
+
 <?php
 //call function which will connect to database and send to login if no one is logged in.
 include "function.php";
@@ -78,9 +79,8 @@ include "function.php";
             <form action="assignCaptain.php" method="post">
                 <h3>Teams:</h3>
                 <select name="teams" id="teams">
-                    <!-- fill select with teams from database-->
                     <?php
-                    $result = $con->query("SELECT squad.squadID, squad.squadname from teamsquad LEFT JOIN squad on squad.squadID = teamsquad.squadID where teamsquad.teamID = " . $_SESSION['teamID'] . ";");
+                    $result = $con->query("SELECT squad.squadID, squad.squadName from teamsquad LEFT JOIN squad on squad.squadID = teamsquad.squadID where teamsquad.teamID = " . $_SESSION['teamID'] . ";");
                     while (
                         $ri = mysqli_fetch_array($result)
                     ) {
